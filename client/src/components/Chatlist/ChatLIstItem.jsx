@@ -6,6 +6,7 @@ import { BsCheckAll, BsCheckLg } from 'react-icons/bs';
 import { FaCamera, FaMicrophone } from 'react-icons/fa';
 import Avatar from '../common/Avatar';
 import MessageStatus from '../common/MessageStatus';
+import {decrypt} from "../../services/encryption.service";
 
 export default function ChatLIstItem({ data, isContactPage = false }) {
 	const [{ userInfo, currentChatUser }, dispatch] = useStateProvider();
@@ -35,6 +36,15 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 			dispatch({ type: reducerCases.SET_ALL_CONTACTS_PAGE });
 		}
 	};
+	function trydecrypt(message){
+		try{
+			return decrypt(message);
+		}
+		catch {
+			return message;
+		}
+	}
+	
 
 	return (
 		<div
@@ -78,8 +88,7 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 										<MessageStatus messageStatus={data.messageStatus} />
 									)}
 									{data.type === 'text' && (
-										<span className="truncate ">{data.message}</span>
-									)}
+                					   <span className="trancate">{trydecrypt(data.message)}</span>				)}
 									{data.type === 'audio' && (
 										<span className="flex gap-1 items-center">
 											<FaMicrophone className="text-panel-header-icon" />

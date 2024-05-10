@@ -10,6 +10,8 @@ import { FaMicrophone } from 'react-icons/fa';
 import { ImAttachment } from 'react-icons/im';
 import { MdSend } from 'react-icons/md';
 import PhotoPicker from '../common/PhotoPicker';
+import {encrypt} from "../../services/encryption.service";
+
 
 const CaptureAudio = dynamic(() => import('@/components/common/CaptureAudio'), {
 	ssr: false,
@@ -58,17 +60,19 @@ export default function MessageBar() {
 	const [{ socket, currentChatUser, userInfo }, dispatch] = useStateProvider();
 	const sendMessage = async () => {
 		try {
+			let encrypted = encrypt(message);
 			setMessage('');
 			const { data } = await axios.post(ADD_MESSAGE_ROUTE, {
 				to: currentChatUser.id,
 				from: userInfo.id,
-				message,
+				message:encrypted,
 			});
 			socket.current.emit('send-msg', {
 				to: currentChatUser.id,
 				from: userInfo.id,
 				message: data.message,
 			});
+			data.message.message = message;
 			dispatch({
 				type: reducerCases.ADD_MESSAGE,
 				newMessage: {

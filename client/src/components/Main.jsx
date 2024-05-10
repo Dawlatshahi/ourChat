@@ -17,6 +17,8 @@ import VoiceCall from "./Call/VoiceCall";
 import IncomingCall from "./common/IncomingCall";
 import IncomingVideoCall from "./common/IncomingVideoCall";
 import SearchMessages from "./Chat/SearchMessages";
+import {decrypt} from "../services/encryption.service";
+
 
 export default function Main() {
   const [
@@ -74,6 +76,9 @@ export default function Main() {
   useEffect(() => {
     if (socket.current && !socketEvent) {
       socket.current.on("msg-recieve", (data) => {
+
+        if(data.message.type == 'text')
+          data.message.message = decrypt(data.message.message);
         dispatch({
           type: reducerCases.ADD_MESSAGE,
           newMessage: {
@@ -144,6 +149,10 @@ export default function Main() {
       } = await axios.get(
         `${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}`
       );
+      for(var i=0;i<messages.length;i++){
+        if(messages[i].type=="text")
+         messages[i].message =decrypt(messages[i].message);
+      }
       dispatch({ type: reducerCases.SET_MESSAGES, messages });
     };
     if (
