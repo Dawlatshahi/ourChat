@@ -4,6 +4,8 @@ import cors from "cors";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import MessageRoutes from "./routes/MessageRoutes.js";
 import { Server } from "socket.io";
+import { clientEncrypt, clientDecrypt, serverEncrypt, serverDecrypt} from "./services/encryption.service.js";
+
 
 dotenv.config();
 const app = express();
@@ -94,6 +96,8 @@ io.on("connection", (socket) => {
 
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers.get(data.to);
+    if(data.message.type =="text")
+      data.message.message = clientEncrypt(serverDecrypt(data.message.message));
     if (sendUserSocket) {
       socket
         .to(sendUserSocket)

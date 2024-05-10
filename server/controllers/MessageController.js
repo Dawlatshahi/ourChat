@@ -1,5 +1,6 @@
 import { renameSync } from "fs";
 import getPrismaInstance from "../utils/PrismaClient.js";
+import { clientEncrypt, clientDecrypt, serverEncrypt, serverDecrypt} from "../services/encryption.service.js";
 
 export const getMessages = async (req, res, next) => {
   try {
@@ -42,6 +43,15 @@ export const getMessages = async (req, res, next) => {
         messageStatus: "read",
       },
     });
+    messages.forEach((message, index) => {
+      
+      if(message.type == "text"){
+        let decrypted = serverDecrypt(message.message);
+        let encrypted = clientEncrypt(decrypted);
+        message.message = encrypted;
+        console.log(message);
+      }
+    });
     res.status(200).json({ messages });
   } catch (err) {
     next(err);
@@ -56,9 +66,13 @@ export const addMessage = async (req, res, next) => {
     const getUser = onlineUsers.get(to);
 
     if (message && from && to) {
+  
+      let decrypted = clientDecrypt(message);
+      let encrypted = serverEncrypt(decrypted);
+              
       const newMessage = await prisma.messages.create({
         data: {
-          message: message,
+          message: encrypted,
           sender: { connect: { id: parseInt(from) } },
           reciever: { connect: { id: parseInt(to) } },
           messageStatus: getUser ? "delivered" : "sent",
@@ -114,7 +128,7 @@ export const getInitialContactsWithMessages = async (req, res, next) => {
         let user = {
           messageId: id,
           type,
-          message,
+          message:type=="text"?clientEncrypt(serverDecrypt(message)):message,
           messageStatus,
           createdAt,
           senderId,

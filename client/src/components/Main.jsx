@@ -150,6 +150,7 @@ export default function Main() {
         `${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}`
       );
       for(var i=0;i<messages.length;i++){
+        console.log(messages[i]);
         if(messages[i].type=="text")
          messages[i].message =decrypt(messages[i].message);
       }
