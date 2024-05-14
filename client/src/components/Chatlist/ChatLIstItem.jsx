@@ -88,7 +88,7 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 										<MessageStatus messageStatus={data.messageStatus} />
 									)}
 									{data.type === 'text' && (
-                					   <span className="trancate">{trydecrypt(data.message)}</span>				)}
+                					   <span className="trancate">{trydecrypt(data.message)}</span>)}
 									{data.type === 'audio' && (
 										<span className="flex gap-1 items-center">
 											<FaMicrophone className="text-panel-header-icon" />
