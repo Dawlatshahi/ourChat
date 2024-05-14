@@ -60,18 +60,34 @@ export default function Login() {
 		}
 	};
 	return (
-		<div className="flex justify-center items-center bg-panel-header-background h-screen w-screen flex-col gap-6">
-			<div className="flex items-center justify-center gap-2 text-white">
-				<Image src="/logo.png" alt="logo-gif" height={300} width={300} />
-				<span className="text-7xl">ourChat</span>
+		<div className="relative h-screen w-screen bg-white flex flex-col justify-center items-center">
+			<div className="bg-panel-header-background text-white h-40 w-full absolute top-0 flex justify-center items-center"></div>
+			<div className="flex flex-col items-center gap-2 text-search-input-container-background pl-10 pr-10 pt-10 m-10 shadow-2xl rounded-lg bg-white w-100 mx-auto h-100 pb-20 absolute">
+				<span className="text-panel-header-background items-start text-2xl ">
+					Welcome to <b>ourChat</b>!
+				</span>
+				<hr className="text-panel-header-background"></hr>
+				<div className="flex items-center justify-center  mt-20 lg:ml-40 lg:mr-40 md:ml-20 md:mr-20">
+					<Image
+						src="/bwbg.png"
+						alt="logo-gif"
+						height={200}
+						width={200}
+						className="sm:w-auto sm:h-auto"
+					/>
+					<span className="text-5xl sm:text-7xl pl-4 sm:pl-10 ">ourChat</span>
+				</div>
+
+				<div className="flex justify-center mt-20">
+					<button
+						className="flex items-center justify-center gap-7 bg-panel-header-background p-5 rounded-lg"
+						onClick={login}
+					>
+						<FcGoogle className="text-4xl" />
+						<span className="text-white text-2xl">Login With Google</span>
+					</button>
+				</div>
 			</div>
-			<button
-				className="flex items-center justify-center gap-7 bg-search-input-container-background p-5 rounded-lg"
-				onClick={login}
-			>
-				<FcGoogle className="text-4xl" />
-				<span className="text-white text-2xl">Login With Google</span>
-			</button>
 		</div>
 	);
 }
