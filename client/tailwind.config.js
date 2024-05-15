@@ -26,7 +26,7 @@ module.exports = {
 				'outgoing-background': '#005c4b',
 				'bubble-meta': 'hsla(0,0%,100%,0.6)',
 				'icon-ack': '#53bdeb',
-				'login-bg': '#0088cc',
+				'login-bg': '#0c2844',
 			},
 			gridTemplateColumns: {
 				main: '1fr 2.4fr',

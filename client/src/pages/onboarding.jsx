@@ -85,7 +85,7 @@ export default function OnBoarding() {
 	return (
 		<div className="bg-panel-header-background h-screen w-screen text-white flex flex-col items-center justify-center">
 			<div className="flex items-center justify-center gap-2">
-				<Image src="/logo.gif" alt="logo-gif" height={300} width={300} />
+				<Image src="/bwbg.png" alt="logo-gif" height={300} width={300} />
 				<span className="text-7xl">ourChat</span>
 			</div>
 			<div></div>
