@@ -4,9 +4,9 @@ import { calculateTime } from '@/utils/CalculateTime';
 import React from 'react';
 import { BsCheckAll, BsCheckLg } from 'react-icons/bs';
 import { FaCamera, FaMicrophone } from 'react-icons/fa';
+import { decrypt } from '../../services/encryption.service';
 import Avatar from '../common/Avatar';
 import MessageStatus from '../common/MessageStatus';
-import {decrypt} from "../../services/encryption.service";
 
 export default function ChatLIstItem({ data, isContactPage = false }) {
 	const [{ userInfo, currentChatUser }, dispatch] = useStateProvider();
@@ -36,15 +36,13 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 			dispatch({ type: reducerCases.SET_ALL_CONTACTS_PAGE });
 		}
 	};
-	function trydecrypt(message){
-		try{
+	function trydecrypt(message) {
+		try {
 			return decrypt(message);
-		}
-		catch {
+		} catch {
 			return message;
 		}
 	}
-	
 
 	return (
 		<div
@@ -61,7 +59,7 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 			<div className="min-h-full flex flex-col justify-center mt-3 pr-2 w-full">
 				<div className="flex justify-between ">
 					<div>
-						<span className="text-white">{data?.name}</span>
+						<span className="text-white text-md ">{data?.name}</span>
 					</div>
 					{!isContactPage && (
 						<div>
@@ -88,7 +86,8 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 										<MessageStatus messageStatus={data.messageStatus} />
 									)}
 									{data.type === 'text' && (
-                					   <span className="trancate">{trydecrypt(data.message)}</span>)}
+										<span className="trancate">{trydecrypt(data.message)}</span>
+									)}
 									{data.type === 'audio' && (
 										<span className="flex gap-1 items-center">
 											<FaMicrophone className="text-panel-header-icon" />

@@ -61,8 +61,8 @@ export default function Login() {
 	};
 	return (
 		<div className="relative h-screen w-screen bg-white flex flex-col justify-center items-center">
-			<div className="bg-panel-header-background text-white h-40 w-full absolute top-0 flex justify-center items-center"></div>
-			<div className="flex flex-col items-center gap-2 text-search-input-container-background pl-10 pr-10 pt-10 m-10 shadow-2xl rounded-lg bg-white w-100 mx-auto h-100 pb-20 absolute">
+			<div className="bg-panel-header-background text-white h-40 w-full absolute top-0 flex justify-center items-center lg:h-48 xl:h-55 md:h-40"></div>
+			<div className="flex flex-col items-center gap-2 text-search-input-container-background pl-10 pr-10 pt-10 m-10 shadow-2xl rounded-lg bg-white w-100 mx-auto h-100 pb-20 lg:pl-40 lg:pr-40 xl:pt-20 absolute">
 				<span className="text-panel-header-background items-start text-2xl ">
 					Welcome to <b>ourChat</b>!
 				</span>

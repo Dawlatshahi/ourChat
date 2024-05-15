@@ -1,6 +1,5 @@
 import { Crypt, RSA } from 'hybrid-crypto-js';
 
-
 var publicKey = `-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAx1LKcBX+r0XJL6PJvlx3
 1wI3saaGuXvLoEbA4ono5ys3loSB7XHTbsIxX4Zzg+93vW3ofGcaNpwWAYHup3co
@@ -69,31 +68,28 @@ JjBsQznXxOhC3LyPG5C9ZJ7zc7pMLD5bzWs9BowxoR0O016df7mE48F86C0=
 -----END RSA PRIVATE KEY-----`;
 
 export function encrypt(message) {
-    var entropy = 'Testing of RSA algorithm in javascript.';
-    var crypt = new Crypt({
-        rsaStandard: 'RSA-OAEP',
-        entropy: entropy
-    });
+	var entropy = 'Testing of RSA algorithm in javascript.';
+	var crypt = new Crypt({
+		rsaStandard: 'RSA-OAEP',
+		entropy: entropy,
+	});
 
-    var encrypted = crypt.encrypt(publicKey, message);
+	var encrypted = crypt.encrypt(publicKey, message);
 
-    var stringenc = JSON.stringify(encrypted)
-    var encodedAndReady = btoa(stringenc)
-    return encodedAndReady;
+	var stringenc = JSON.stringify(encrypted);
+	var encodedAndReady = btoa(stringenc);
+	return encodedAndReady;
 }
 
 export function decrypt(message) {
-    var entropy = 'Testing of RSA algorithm in javascript.';
-    var crypt = new Crypt({
-        rsaStandard: 'RSA-OAEP',
-        entropy: entropy
-    });
-    var decoded = atob(message);
-    var object = JSON.parse(decoded);
-    var decrypted = crypt.decrypt(privateKey, object);
-    console.log(decrypted);
+	var entropy = 'Testing of RSA algorithm in javascript.';
+	var crypt = new Crypt({
+		rsaStandard: 'RSA-OAEP',
+		entropy: entropy,
+	});
+	var decoded = atob(message);
+	var object = JSON.parse(decoded);
+	var decrypted = crypt.decrypt(privateKey, object);
 
-    return decrypted.message;
-
-    
+	return decrypted.message;
 }
