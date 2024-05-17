@@ -16,7 +16,7 @@ export default function OnBoarding() {
 
 	const [{ userInfo, newUser }, dispatch] = useStateProvider();
 
-	const [image, setImage] = useState('/default_avatar.png');
+	const [image, setImage] = useState(userInfo?.image || '/default_avatar.png');
 	const [name, setName] = useState(userInfo?.name || '');
 	const [about, setAbout] = useState('');
 

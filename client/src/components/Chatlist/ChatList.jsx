@@ -21,7 +21,9 @@ export default function ChatList() {
 			{pageType === 'default' && (
 				<>
 					<ChatListHeader />
+
 					<SearchBar />
+
 					<List />
 				</>
 			)}

@@ -2,9 +2,8 @@ import { useStateProvider } from '@/context/StateContext';
 import { reducerCases } from '@/context/constants';
 import { GET_CALL_TOKEN } from '@/utils/ApiRoutes';
 import axios from 'axios';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdOutlineCallEnd } from 'react-icons/md';
 
 function Container({ data }) {
@@ -14,17 +13,43 @@ function Container({ data }) {
 	const [token, setToken] = useState(undefined);
 	const [zgVar, setZgVar] = useState(undefined);
 	const [callStarted, setCallStarted] = useState(false);
-	const [callAccepted, setcallAccepted] = useState(false);
+	const [callAccepted, setCallAccepted] = useState(false);
+	const [callStartTime, setCallStartTime] = useState(null);
+	const [callDuration, setCallDuration] = useState(0);
 
 	useEffect(() => {
-		if (data.type === 'out-going')
-			socket.current.on('accept-call', () => setcallAccepted(true));
-		else {
+		const timer = setInterval(() => {
+			if (callAccepted && callStartTime) {
+				const duration = Math.floor((Date.now() - callStartTime) / 1000);
+				setCallDuration(duration);
+			}
+		}, 1000);
+
+		return () => clearInterval(timer);
+	}, [callAccepted, callStartTime]);
+
+	useEffect(() => {
+		if (data.type === 'out-going') {
+			socket.current.on('accept-call', () => {
+				const startTime = Date.now();
+				socket.current.emit('call-start-time', startTime);
+				setCallAccepted(true);
+				setCallStartTime(startTime);
+			});
+		} else {
 			setTimeout(() => {
-				setcallAccepted(true);
+				setCallAccepted(true);
+				setCallStartTime(Date.now());
 			}, 1000);
 		}
-	}, [data]);
+	}, [data, socket]);
+
+	useEffect(() => {
+		socket.current.on('call-start-time', (startTime) => {
+			setCallAccepted(true);
+			setCallStartTime(startTime);
+		});
+	}, [socket]);
 
 	useEffect(() => {
 		const getToken = async () => {
@@ -40,7 +65,7 @@ function Container({ data }) {
 		if (callAccepted) {
 			getToken();
 		}
-	}, [callAccepted]);
+	}, [callAccepted, userInfo.id]);
 
 	useEffect(() => {
 		const startCall = async () => {
@@ -55,7 +80,7 @@ function Container({ data }) {
 					zg.on(
 						'roomStreamUpdate',
 						async (roomID, updateType, streamList, extendedData) => {
-							if (updateType == 'ADD') {
+							if (updateType === 'ADD') {
 								const rmVideo = document.getElementById('remote-video');
 								const vd = document.createElement(
 									data.callType === 'video' ? 'video' : 'audio'
@@ -73,9 +98,7 @@ function Container({ data }) {
 								}).then((stream) => {
 									vd.srcObject = stream;
 								});
-
-								// New stream added, start playing the stream.
-							} else if (updateType == 'DELETE') {
+							} else if (updateType === 'DELETE') {
 								if (zg && localStream && streamList[0].streamID) {
 									zg.destroyStream(localStream);
 									zg.logoutRoom(data.roomId.toString());
@@ -93,11 +116,6 @@ function Container({ data }) {
 						{ userUpdate: true }
 					);
 
-					// Callback for updates on the status of ther users in the room.
-
-					// Callback for updates on the status of the streams in the room.
-
-					// After calling the CreateStream method, you need to wait for the ZEGOCLOUD server to return the local stream object before any further operation.
 					setTimeout(async () => {
 						const localStream = await zg.createStream({
 							camera: {
@@ -116,7 +134,6 @@ function Container({ data }) {
 							videoElement.className = 'h-28 w-32';
 							videoElement.autoplay = true;
 							videoElement.muted = false;
-
 							videoElement.playsInline = true;
 
 							localAudio.appendChild(videoElement);
@@ -155,9 +172,17 @@ function Container({ data }) {
 			<div className="flex flex-col gap-3 items-center">
 				<span className="text-4xl">{data.name}</span>
 				<span className="text-lg">
-					{callAccepted && data.callType !== 'video'
-						? 'On going call'
-						: 'Calling'}
+					{callAccepted && data.callType !== 'video' ? (
+						<>
+							On going call
+							<br />
+							<span style={{ textAlign: 'center', display: 'block' }}>
+								{Math.floor(callDuration / 60)}:{callDuration % 60}
+							</span>
+						</>
+					) : (
+						'Calling'
+					)}
 				</span>
 			</div>
 
@@ -173,7 +198,9 @@ function Container({ data }) {
 				</div>
 			)}
 			<div className="my-5 relative" id="remote-video">
-				<div className="absolute bottom-5 right-5" id="local-video"></div>
+				<div className="absolute bottom-5 right-5" id="local-video">
+					{' '}
+				</div>
 			</div>
 
 			<div

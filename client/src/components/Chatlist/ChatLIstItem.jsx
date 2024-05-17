@@ -3,17 +3,17 @@ import { reducerCases } from '@/context/constants';
 import { calculateTime } from '@/utils/CalculateTime';
 import React from 'react';
 import { BsCheckAll, BsCheckLg } from 'react-icons/bs';
-import { FaCamera, FaMicrophone } from 'react-icons/fa';
+import { FaCamera, FaCircle, FaMicrophone } from 'react-icons/fa';
 import { decrypt } from '../../services/encryption.service';
 import Avatar from '../common/Avatar';
 import MessageStatus from '../common/MessageStatus';
 
-export default function ChatLIstItem({ data, isContactPage = false }) {
-	const [{ userInfo, currentChatUser }, dispatch] = useStateProvider();
+export default function ChatListItem({ data, isContactPage = false }) {
+	const [{ userInfo, currentChatUser, onlineUsers }, dispatch] =
+		useStateProvider();
 
 	const handleContactClick = () => {
 		if (currentChatUser?.id === data?.id) {
-			// If the clicked chat user is already the current chat user, return early
 			return;
 		}
 
@@ -53,13 +53,25 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 			}`}
 			onClick={handleContactClick}
 		>
-			<div className="min-w-fit px-5 pt-3 pb-1 ">
-				<Avatar type="lg" image={data?.profilePicture} />
+			<div className="relative mr-4 ml-2">
+				<div className="h-12 w-14 mb-3">
+					<Avatar
+						type="lg"
+						image={data?.profilePicture}
+						className="object-cover "
+					/>
+				</div>
+				{onlineUsers.includes(data.id) && (
+					<FaCircle
+						className="text-green-500 absolute bottom-4 right-0 transform translate-x-1/4 translate-y-1/4"
+						style={{ fontSize: '0.6rem' }}
+					/>
+				)}
 			</div>
-			<div className="min-h-full flex flex-col justify-center mt-3 pr-2 w-full">
-				<div className="flex justify-between ">
+			<div className="flex flex-col justify-center mt-3 pr-2 w-full">
+				<div className="flex justify-between">
 					<div>
-						<span className="text-white text-md ">{data?.name}</span>
+						<span className="text-white text-md">{data?.name}</span>
 					</div>
 					{!isContactPage && (
 						<div>
@@ -77,7 +89,7 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 				</div>
 				<div className="flex border-b border-conversation-border pb-2 pt-1 pr-2">
 					<div className="flex justify-between w-full">
-						<span className="text-secondary line-clamp-1 text-sm ">
+						<span className="text-secondary line-clamp-1 text-sm">
 							{isContactPage ? (
 								data?.about || '\u00A0'
 							) : (
@@ -86,7 +98,7 @@ export default function ChatLIstItem({ data, isContactPage = false }) {
 										<MessageStatus messageStatus={data.messageStatus} />
 									)}
 									{data.type === 'text' && (
-										<span className="trancate">{trydecrypt(data.message)}</span>
+										<span className="truncate">{trydecrypt(data.message)}</span>
 									)}
 									{data.type === 'audio' && (
 										<span className="flex gap-1 items-center">

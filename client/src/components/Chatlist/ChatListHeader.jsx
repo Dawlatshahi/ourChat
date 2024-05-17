@@ -2,14 +2,15 @@ import { useStateProvider } from '@/context/StateContext';
 import { reducerCases } from '@/context/constants';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { BsPersonPlus, BsThreeDotsVertical } from 'react-icons/bs'; // Import the contact icon without a square around it
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { RiChatNewFill } from 'react-icons/ri';
 import Avatar from '../common/Avatar';
 import ContextMenu from '../common/ContextMenu';
 
 export default function ChatListHeader() {
 	const [{ userInfo }, dispatch] = useStateProvider();
 	const router = useRouter();
-	const [contextMenuCordinates, setContextMenuCordinates] = useState({
+	const [contextMenuCoordinates, setContextMenuCoordinates] = useState({
 		x: 0,
 		y: 0,
 	});
@@ -18,7 +19,7 @@ export default function ChatListHeader() {
 
 	const showContextMenu = (e) => {
 		e.preventDefault();
-		setContextMenuCordinates({ x: e.pageX, y: e.pageY });
+		setContextMenuCoordinates({ x: e.pageX, y: e.pageY });
 		setIsContextMenuVisible(true);
 	};
 
@@ -42,7 +43,7 @@ export default function ChatListHeader() {
 				<Avatar type="sm" image={userInfo?.profileImage} />
 			</div>
 			<div className="flex gap-6 ">
-				<BsPersonPlus
+				<RiChatNewFill
 					className="text-panel-header-icon cursor-pointer text-2xl "
 					title="New chat"
 					onClick={handleAllContactsPage}
@@ -57,7 +58,7 @@ export default function ChatListHeader() {
 					{isContextMenuVisible && (
 						<ContextMenu
 							options={contextMenuOptions}
-							cordinates={contextMenuCordinates}
+							coordinates={contextMenuCoordinates}
 							contextMenu={isContextMenuVisible}
 							setContextMenu={setIsContextMenuVisible}
 						/>
