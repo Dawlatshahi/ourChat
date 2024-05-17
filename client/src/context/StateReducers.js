@@ -16,6 +16,8 @@ export const initialState = {
 	onlineUsers: [],
 	contactSearch: '',
 	filteredContacts: [],
+	contactsPage: false,
+	editProfilePage: false,
 };
 
 const reducer = (state, action) => {
@@ -280,6 +282,26 @@ const reducer = (state, action) => {
 				filteredContacts,
 			};
 		}
+
+		case reducerCases.SET_ALL_CONTACTS_PAGE:
+			return {
+				...state,
+				contactsPage: true,
+				editProfilePage: false,
+			};
+		case reducerCases.SET_EDIT_PROFILE_PAGE:
+			return {
+				...state,
+				contactsPage: false,
+				editProfilePage: true,
+			};
+		case reducerCases.SET_DEFAULT_PAGE:
+			return {
+				...state,
+				contactsPage: false,
+				editProfilePage: false,
+			};
+
 		default:
 			return state;
 	}

@@ -16,6 +16,7 @@ function Container({ data }) {
 	const [callAccepted, setCallAccepted] = useState(false);
 	const [callStartTime, setCallStartTime] = useState(null);
 	const [callDuration, setCallDuration] = useState(0);
+	const [remoteStreamID, setRemoteStreamID] = useState(null);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -66,6 +67,22 @@ function Container({ data }) {
 			getToken();
 		}
 	}, [callAccepted, userInfo.id]);
+	useEffect(() => {
+		// Handle the 'reject-voice-call' event
+		socket.current.on('reject-voice-call', () => {
+			// Stop the remote stream using Zego SDK methods
+			if (zgVar && remoteStreamID) {
+				zgVar.stopPlayingStream(remoteStreamID); // Stop remote stream
+			}
+
+			// Perform any additional cleanup or actions related to ending the call
+		});
+
+		// Cleanup function to remove event listener when component unmounts
+		return () => {
+			socket.current.off('reject-voice-call'); // Remove event listener
+		};
+	}, [socket, zgVar, remoteStreamID]); // Dependencies for useEffect
 
 	useEffect(() => {
 		const startCall = async () => {
@@ -79,7 +96,7 @@ function Container({ data }) {
 
 					zg.on(
 						'roomStreamUpdate',
-						async (roomID, updateType, streamList, extendedData) => {
+						async (roomId, updateType, streamList, extendedData) => {
 							if (updateType === 'ADD') {
 								const rmVideo = document.getElementById('remote-video');
 								const vd = document.createElement(
@@ -102,6 +119,7 @@ function Container({ data }) {
 								if (zg && localStream && streamList[0].streamID) {
 									zg.destroyStream(localStream);
 									zg.logoutRoom(data.roomId.toString());
+									setRemoteStreamID(null);
 								}
 
 								zg.stopPublishingStream(streamList[0].streamID);
@@ -154,21 +172,27 @@ function Container({ data }) {
 		}
 	}, [token]);
 
+	// Define the endCall function within the component scope
 	const endCall = () => {
 		const id = data.id;
 		socket.current.emit('reject-voice-call', {
 			from: id,
 		});
+
 		if (zgVar && localStream && publishStream) {
-			zgVar.destroyStream(localStream);
-			zgVar.stopPublishingStream(publishStream);
-			zgVar.logoutRoom(data.roomId.toString());
+			zgVar.destroyStream(localStream); // Stop local stream
+			zgVar.stopPublishingStream(publishStream); // Stop publishing stream
+			zgVar.logoutRoom(data.roomId.toString()); // Logout from room
 		}
+
 		dispatch({ type: reducerCases.END_CALL });
 	};
 
 	return (
-		<div className="border-conversation-border border-l w-full bg-conversation-panel-background flex flex-col h-[100vh] overflow-hidden items-center justify-center text-white ">
+		<div
+			className="border-conversation-border border-l w-full bg-conversation-panel-background flex flex-col h-[100vh] overflow-hidden
+items-center justify-center text-white "
+		>
 			<div className="flex flex-col gap-3 items-center">
 				<span className="text-4xl">{data.name}</span>
 				<span className="text-lg">

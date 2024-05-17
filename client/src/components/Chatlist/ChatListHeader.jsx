@@ -14,7 +14,6 @@ export default function ChatListHeader() {
 		x: 0,
 		y: 0,
 	});
-
 	const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
 
 	const showContextMenu = (e) => {
@@ -37,14 +36,18 @@ export default function ChatListHeader() {
 		dispatch({ type: reducerCases.SET_ALL_CONTACTS_PAGE });
 	};
 
+	const handleEditProfilePage = () => {
+		dispatch({ type: reducerCases.SET_EDIT_PROFILE_PAGE });
+	};
+
 	return (
-		<div className="h-16 px-4 py-3 flex justify-between items-center z-20 w-full">
-			<div className="cursor-pointer">
+		<div className="h-16 px-4 py-3 flex justify-between items-center z-20 w-full bg-panel-header-background">
+			<div className="cursor-pointer" onClick={handleEditProfilePage}>
 				<Avatar type="sm" image={userInfo?.profileImage} />
 			</div>
-			<div className="flex gap-6 ">
+			<div className="flex gap-6">
 				<RiChatNewFill
-					className="text-panel-header-icon cursor-pointer text-2xl "
+					className="text-panel-header-icon cursor-pointer text-2xl"
 					title="New chat"
 					onClick={handleAllContactsPage}
 				/>
