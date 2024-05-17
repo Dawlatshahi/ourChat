@@ -46,24 +46,24 @@ export default function ChatContainer() {
 							>
 								{message.type === 'text' && (
 									<div
-										className={`text-white px-2 py-[5px] text-sm rounded-md flex gap-2 items-end max-w-[45%]	 ${
+										className={`text-white px-2 py-[2px] text-sm rounded-md flex flex-col gap-1 items-end max-w-[70%] overflow-x-hidden relative ${
 											message.senderId === currentChatUser.id
 												? 'bg-incoming-background'
 												: 'bg-outgoing-background'
 										}`}
 									>
 										<span className="break-all">{message.message}</span>
-										<div className="flex gap-1 items-end">
-											<span className="text-bubble-meta text-[11px] pt-1 min-w-fit">
+										<div className="flex gap-1 items-end justify-end mt-0">
+											<span className="text-bubble-meta text-[11px]">
 												{calculateTime(message.createdAt)}
 											</span>
-											<span>
-												{message.senderId === userInfo.id && (
+											{message.senderId === userInfo.id && (
+												<span>
 													<MessageStatus
 														messageStatus={message.messageStatus}
 													/>
-												)}
-											</span>
+												</span>
+											)}
 										</div>
 									</div>
 								)}
