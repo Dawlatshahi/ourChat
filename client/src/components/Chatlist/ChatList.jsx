@@ -8,9 +8,13 @@ import List from './List';
 import SearchBar from './SearchBar';
 
 export default function ChatList() {
-	const [pageType, setPageType] = useState('default');
 	const [{ contactsPage, editProfilePage, userInfo }, dispatch] =
 		useStateProvider();
+	const [pageType, setPageType] = useState('default');
+
+	const handleEditProfileClose = () => {
+		dispatch({ type: reducerCases.SET_DEFAULT_PAGE });
+	};
 
 	useEffect(() => {
 		if (contactsPage) {
@@ -22,23 +26,30 @@ export default function ChatList() {
 		}
 	}, [contactsPage, editProfilePage]);
 
-	const handleEditProfileClose = () => {
-		dispatch({ type: reducerCases.SET_DEFAULT_PAGE });
+	const renderContent = () => {
+		switch (pageType) {
+			case 'default':
+				return (
+					<>
+						<ChatListHeader />
+						<SearchBar />
+						<List />
+					</>
+				);
+			case 'all-contacts':
+				return <ContactsList />;
+			case 'edit-profile':
+				return (
+					<EditProfile userInfo={userInfo} onClose={handleEditProfileClose} />
+				);
+			default:
+				return null;
+		}
 	};
 
 	return (
 		<div className="bg-panel-header-background flex flex-col max-h-screen z-20 ">
-			{pageType === 'default' && (
-				<>
-					<ChatListHeader />
-					<SearchBar />
-					<List />
-				</>
-			)}
-			{pageType === 'all-contacts' && <ContactsList />}
-			{pageType === 'edit-profile' && (
-				<EditProfile userInfo={userInfo} onClose={handleEditProfileClose} />
-			)}
+			{renderContent()}
 		</div>
 	);
 }

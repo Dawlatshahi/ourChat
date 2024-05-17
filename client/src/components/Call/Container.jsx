@@ -68,23 +68,8 @@ function Container({ data }) {
 		}
 	}, [callAccepted, userInfo.id]);
 	useEffect(() => {
-		// Handle the 'reject-voice-call' event
-		socket.current.on('reject-voice-call', () => {
-			// Stop the remote stream using Zego SDK methods
-			if (zgVar && remoteStreamID) {
-				zgVar.stopPlayingStream(remoteStreamID); // Stop remote stream
-			}
+		let isMounted = true;
 
-			// Perform any additional cleanup or actions related to ending the call
-		});
-
-		// Cleanup function to remove event listener when component unmounts
-		return () => {
-			socket.current.off('reject-voice-call'); // Remove event listener
-		};
-	}, [socket, zgVar, remoteStreamID]); // Dependencies for useEffect
-
-	useEffect(() => {
 		const startCall = async () => {
 			import('zego-express-engine-webrtc').then(
 				async ({ ZegoExpressEngine }) => {
@@ -97,7 +82,7 @@ function Container({ data }) {
 					zg.on(
 						'roomStreamUpdate',
 						async (roomId, updateType, streamList, extendedData) => {
-							if (updateType === 'ADD') {
+							if (updateType === 'ADD' && isMounted && callAccepted) {
 								const rmVideo = document.getElementById('remote-video');
 								const vd = document.createElement(
 									data.callType === 'video' ? 'video' : 'audio'
@@ -106,9 +91,7 @@ function Container({ data }) {
 								vd.autoplay = true;
 								vd.playsInline = true;
 								vd.muted = false;
-								if (rmVideo) {
-									rmVideo.appendChild(vd);
-								}
+								rmVideo.appendChild(vd); // Append the child element
 								zg.startPlayingStream(streamList[0].streamID, {
 									audio: true,
 									video: true,
@@ -135,16 +118,16 @@ function Container({ data }) {
 					);
 
 					setTimeout(async () => {
-						const localStream = await zg.createStream({
-							camera: {
-								audio: true,
-								video: data.callType === 'video' ? true : false,
-							},
-						});
-						setLocalStream(localStream);
-						setTimeout(() => {
-							const localAudio = document.getElementById('local-video');
+						if (isMounted && callAccepted) {
+							const localStream = await zg.createStream({
+								camera: {
+									audio: true,
+									video: data.callType === 'video' ? true : false,
+								},
+							});
+							setLocalStream(localStream);
 
+							const localAudio = document.getElementById('local-video');
 							const videoElement = document.createElement(
 								data.callType === 'video' ? 'video' : 'audio'
 							);
@@ -153,15 +136,14 @@ function Container({ data }) {
 							videoElement.autoplay = true;
 							videoElement.muted = false;
 							videoElement.playsInline = true;
-
-							localAudio.appendChild(videoElement);
+							localAudio.appendChild(videoElement); // Append the child element
 
 							const td = document.getElementById('audio-local');
 							td.srcObject = localStream;
 							const streamID = '123' + Date.now();
 							setPublishStream(streamID);
 							zg.startPublishingStream(streamID, localStream);
-						}, 1000);
+						}
 					}, 1000);
 				}
 			);
@@ -170,9 +152,12 @@ function Container({ data }) {
 			startCall();
 			setCallStarted(true);
 		}
-	}, [token]);
 
-	// Define the endCall function within the component scope
+		return () => {
+			isMounted = false;
+		};
+	}, [token, callAccepted]);
+
 	const endCall = () => {
 		const id = data.id;
 		socket.current.emit('reject-voice-call', {
@@ -180,9 +165,9 @@ function Container({ data }) {
 		});
 
 		if (zgVar && localStream && publishStream) {
-			zgVar.destroyStream(localStream); // Stop local stream
-			zgVar.stopPublishingStream(publishStream); // Stop publishing stream
-			zgVar.logoutRoom(data.roomId.toString()); // Logout from room
+			zgVar.destroyStream(localStream);
+			zgVar.stopPublishingStream(publishStream);
+			zgVar.logoutRoom(data.roomId.toString());
 		}
 
 		dispatch({ type: reducerCases.END_CALL });
