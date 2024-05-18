@@ -136,7 +136,7 @@ function Container({ data }) {
 							videoElement.autoplay = true;
 							videoElement.muted = false;
 							videoElement.playsInline = true;
-							localAudio.appendChild(videoElement); // Append the child element
+							localAudio.appendChild(videoElement);
 
 							const td = document.getElementById('audio-local');
 							td.srcObject = localStream;

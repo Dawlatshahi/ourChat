@@ -3,7 +3,7 @@ import { reducerCases } from '@/context/constants';
 import React, { useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaCircle } from 'react-icons/fa'; // Import the green circle icon
+import { FaCircle } from 'react-icons/fa';
 import { IoVideocam } from 'react-icons/io5';
 import { MdCall } from 'react-icons/md';
 import Avatar from '../common/Avatar';
@@ -67,7 +67,7 @@ export default function ChatHeader() {
 					{onlineUsers.includes(currentChatUser.id) && (
 						<FaCircle
 							className="text-green-500 absolute bottom-0 right-0"
-							style={{ fontSize: '0.6rem' }} // Adjusted size to be smaller
+							style={{ fontSize: '0.6rem' }}
 						/>
 					)}
 				</div>

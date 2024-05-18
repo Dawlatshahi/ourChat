@@ -177,7 +177,7 @@ export default function Main() {
 				</div>
 			)}
 			{!videoCall && !voiceCall && (
-				<div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden">
+				<div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden border border-gray-700">
 					<ChatList />
 					{currentChatUser ? (
 						<div className={messageSearch ? 'grid grid-cols-2' : 'grid-cols-2'}>

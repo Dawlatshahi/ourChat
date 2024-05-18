@@ -1,9 +1,16 @@
+import { useRouter } from 'next/router';
 import React from 'react';
-import { BiArrowBack } from 'react-icons/bi';
+import { BiArrowBack, BiLogOut } from 'react-icons/bi';
 
 export default function EditProfile({ userInfo, onClose }) {
+	const router = useRouter();
+
+	const handleLogout = () => {
+		router.push('/logout');
+	};
+
 	return (
-		<div className="h-full flex flex-col bg-search-input-container-background ">
+		<div className="h-full flex flex-col bg-search-input-container-background">
 			<div className="h-16 flex items-center px-4 py-3 bg-panel-header-background">
 				<div className="flex items-center gap-12 text-white">
 					<BiArrowBack className="cursor-pointer text-xl" onClick={onClose} />
@@ -33,6 +40,16 @@ export default function EditProfile({ userInfo, onClose }) {
 					<span className="text-gray-400">Contact</span>
 					<p className="text-sm text-gray-300 ml-4 pr-2">{userInfo.email}</p>
 				</div>
+			</div>
+			{/* Logout Button */}
+			<div className="flex ml-4 mt-auto mb-8">
+				<button
+					onClick={handleLogout}
+					className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-md"
+				>
+					<BiLogOut />
+					Logout
+				</button>
 			</div>
 		</div>
 	);

@@ -301,6 +301,13 @@ const reducer = (state, action) => {
 				contactsPage: false,
 				editProfilePage: false,
 			};
+		case 'DELETE_MESSAGE':
+			return {
+				...state,
+				messages: state.messages.filter(
+					(message) => message.id !== action.messageId
+				),
+			};
 
 		default:
 			return state;

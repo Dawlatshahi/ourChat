@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client';
 import { renameSync } from 'fs';
 import {
 	clientDecrypt,
@@ -6,6 +7,25 @@ import {
 	serverEncrypt,
 } from '../services/encryption.service.js';
 import getPrismaInstance from '../utils/PrismaClient.js';
+
+const prisma = new PrismaClient();
+
+export const deleteMessage = async (req, res, next) => {
+	try {
+		const messageId = parseInt(req.params.id);
+
+		await prisma.messages.delete({
+			where: {
+				id: messageId,
+			},
+		});
+
+		res.status(204).end();
+	} catch (error) {
+		console.error('Error deleting message:', error);
+		next(error);
+	}
+};
 
 export const getMessages = async (req, res, next) => {
 	try {

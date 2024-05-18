@@ -98,7 +98,13 @@ export default function ChatListItem({ data, isContactPage = false }) {
 										<MessageStatus messageStatus={data.messageStatus} />
 									)}
 									{data.type === 'text' && (
-										<span className="truncate">{trydecrypt(data.message)}</span>
+										<span className="truncate">
+											{trydecrypt(data.message)
+												.split(' ')
+												.slice(0, 3)
+												.join(' ')}
+											{trydecrypt(data.message).split(' ').length > 3 && ' ...'}
+										</span>
 									)}
 									{data.type === 'audio' && (
 										<span className="flex gap-1 items-center">
@@ -115,6 +121,7 @@ export default function ChatListItem({ data, isContactPage = false }) {
 								</div>
 							)}
 						</span>
+
 						{data.totalUnreadMessages > 0 && (
 							<span className="bg-icon-green px-[5px] rounded-full text-sm">
 								{data.totalUnreadMessages}

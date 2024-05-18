@@ -9,9 +9,8 @@ import { BsEmojiSmile } from 'react-icons/bs';
 import { FaMicrophone } from 'react-icons/fa';
 import { ImAttachment } from 'react-icons/im';
 import { MdSend } from 'react-icons/md';
+import { encrypt } from '../../services/encryption.service';
 import PhotoPicker from '../common/PhotoPicker';
-import {encrypt} from "../../services/encryption.service";
-
 
 const CaptureAudio = dynamic(() => import('@/components/common/CaptureAudio'), {
 	ssr: false,
@@ -65,7 +64,7 @@ export default function MessageBar() {
 			const { data } = await axios.post(ADD_MESSAGE_ROUTE, {
 				to: currentChatUser.id,
 				from: userInfo.id,
-				message:encrypted,
+				message: encrypted,
 			});
 			socket.current.emit('send-msg', {
 				to: currentChatUser.id,
@@ -93,26 +92,25 @@ export default function MessageBar() {
 		setMessage((prevMessage) => (prevMessage += emoji.emoji));
 	};
 
-	const emojiPickerRef = useRef(null); // Create a ref for the emoji picker element
-
+	const emojiPickerRef = useRef(null);
 	useEffect(() => {
 		const handleOutsideClick = (event) => {
 			if (event.target.id !== 'emoji-open') {
 				if (
-					emojiPickerRef.current && // Check if the emoji picker ref exists
-					!emojiPickerRef.current.contains(event.target) // Check if the click is outside of the emoji picker
+					emojiPickerRef.current &&
+					!emojiPickerRef.current.contains(event.target)
 				) {
-					setShowEmojiPicker(false); // Close the emoji picker
+					setShowEmojiPicker(false);
 				}
 			}
 		};
 
-		document.addEventListener('click', handleOutsideClick); // Add the event listener
+		document.addEventListener('click', handleOutsideClick);
 
 		return () => {
-			document.removeEventListener('click', handleOutsideClick); // Clean up the event listener on component unmount
+			document.removeEventListener('click', handleOutsideClick);
 		};
-	}, []); // Empty dependency array ensures the effect runs only once
+	}, []);
 
 	useEffect(() => {
 		setMessage('');

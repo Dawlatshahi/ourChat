@@ -36,10 +36,12 @@ export default function ContextMenu({
 		window.addEventListener('keyup', handleKeyPress);
 		return () => window.removeEventListener('keyup', handleKeyPress);
 	}, []);
+
 	const handleClick = (e, callBack) => {
 		e.stopPropagation();
 		callBack();
 	};
+
 	return (
 		<div
 			className={`bg-dropdown-background fixed py-2 z-[100]`}
@@ -52,15 +54,18 @@ export default function ContextMenu({
 			}}
 		>
 			<ul>
-				{options.map(({ name, callBack }) => (
-					<>
-						<li
-							className="hover:bg-background-default-hover px-5 py-2 cursor-pointer"
+				{options.map(({ name, callBack }, index) => (
+					<li
+						key={index}
+						className="hover:bg-background-default-hover px-5 py-2 cursor-pointer"
+					>
+						<span
+							className="text-white"
 							onClick={(e) => handleClick(e, callBack)}
 						>
-							<span className="text-white">{name}</span>
-						</li>
-					</>
+							{name}
+						</span>
+					</li>
 				))}
 			</ul>
 		</div>

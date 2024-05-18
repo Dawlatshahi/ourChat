@@ -1,4 +1,4 @@
-export const HOST = "http://localhost:3005";
+export const HOST = 'http://localhost:3005';
 
 const authRoute = `${HOST}/api/auth`;
 const MESSAGES_ROUTE = `${HOST}/api/messages`;
@@ -13,3 +13,4 @@ export const GET_MESSAGES_ROUTE = `${MESSAGES_ROUTE}/get-messages`;
 export const GET_INITIAL_CONTACTS_ROUTE = `${MESSAGES_ROUTE}/get-initial-contacts`;
 export const ADD_AUDIO_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/add-audio-message`;
 export const ADD_IMAGE_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/add-image-message`;
+export const DELETE_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/delete-message`;
