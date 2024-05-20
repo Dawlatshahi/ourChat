@@ -48,7 +48,7 @@ export default function ChatList() {
 	};
 
 	return (
-		<div className="bg-panel-header-background flex flex-col max-h-screen z-20 ">
+		<div className="bg-panel-header-background flex flex-col max-h-screen z-20 hidden md:flex">
 			{renderContent()}
 		</div>
 	);

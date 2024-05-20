@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
-import { IoVideocam } from 'react-icons/io5';
+import { IoArrowBack, IoVideocam } from 'react-icons/io5';
 import { MdCall } from 'react-icons/md';
 import Avatar from '../common/Avatar';
 import ContextMenu from '../common/ContextMenu';
@@ -61,12 +61,13 @@ export default function ChatHeader() {
 
 	return (
 		<div className="h-16 px-4 py-3 flex justify-between items-center bg-panel-header-background z-10">
-			<div className="flex items-center justify-center gap-6 relative">
+			<div className="flex items-center gap-2 sm:gap-6 relative">
+				<IoArrowBack className="text-panel-header-icon cursor-pointer text-xl lg:hidden md:hidden" />
 				<div className="relative">
 					<Avatar type="sm" image={currentChatUser?.profilePicture} />
 					{onlineUsers.includes(currentChatUser.id) && (
 						<FaCircle
-							className="text-green-500 absolute bottom-0 right-0"
+							className="text-green-500 absolute bottom-0 right-0 "
 							style={{ fontSize: '0.6rem' }}
 						/>
 					)}

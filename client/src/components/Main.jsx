@@ -162,7 +162,7 @@ export default function Main() {
 	}, [currentChatUser]);
 
 	return (
-		<>
+		<div>
 			{incomingVoiceCall && <IncomingCall />}
 			{incomingVideoCall && <IncomingVideoCall />}
 
@@ -177,18 +177,22 @@ export default function Main() {
 				</div>
 			)}
 			{!videoCall && !voiceCall && (
-				<div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden border border-gray-700">
+				<div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden border border-gray-700 sm:w-auto">
 					<ChatList />
 					{currentChatUser ? (
-						<div className={messageSearch ? 'grid grid-cols-2' : 'grid-cols-2'}>
+						<div
+							className={
+								messageSearch ? 'grid grid-cols-2' : 'grid-cols-2 flex'
+							}
+						>
 							<Chat />
 							{messageSearch && <SearchMessages />}
 						</div>
 					) : (
-						<Empty />
+						<Empty className=" sm:w-screen" />
 					)}
 				</div>
 			)}
-		</>
+		</div>
 	);
 }
