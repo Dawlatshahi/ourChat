@@ -49,8 +49,8 @@ function ContactsList() {
 
 	return (
 		<div className="h-full flex flex-col">
-			<div className="h-24 flex items-end px-3 py-4">
-				<div className="flex  items-center gap-12 text-white">
+			<div className="h-24 flex items-end px-3 py-4 dark:bg-white">
+				<div className="flex  items-center gap-12 text-white dark:text-black ">
 					<BiArrowBack
 						className=" cursor-pointer text-xl"
 						onClick={() =>
@@ -60,17 +60,17 @@ function ContactsList() {
 					<span className="">New Chat</span>
 				</div>
 			</div>
-			<div className="bg-search-input-container-background h-full flex-auto overflow-auto custom-scrollbar">
+			<div className="bg-search-input-container-background h-full flex-auto overflow-auto custom-scrollbar dark:bg-white">
 				<div className=" flex py-3 px-4 items-center gap-3 h-14">
-					<div className="bg-panel-header-background flex items-center gap-5 px-3 py-1 rounded-lg flex-grow">
+					<div className="bg-panel-header-background flex items-center gap-5 px-3 py-1 rounded-lg flex-grow dark:bg-gray-300">
 						<div>
-							<BiSearchAlt2 className="text-panel-header-icon cursor-pointer text-l" />
+							<BiSearchAlt2 className="text-panel-header-icon cursor-pointer text-l dark:text-black" />
 						</div>
 						<div className="">
 							<input
 								type="text"
 								placeholder="Search Contacts"
-								className="bg-transparent text-sm focus:outline-none text-white w-full"
+								className="bg-transparent text-sm focus:outline-none text-white w-full dark:text-black"
 								onChange={(e) => setsearchTerm(e.target.value)}
 								value={searchTerm}
 							/>

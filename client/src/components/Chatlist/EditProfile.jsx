@@ -10,9 +10,9 @@ export default function EditProfile({ userInfo, onClose }) {
 	};
 
 	return (
-		<div className="h-full flex flex-col bg-search-input-container-background">
-			<div className="h-16 flex items-center px-4 py-3 bg-panel-header-background">
-				<div className="flex items-center gap-12 text-white">
+		<div className="h-full flex flex-col bg-search-input-container-background dark:bg-white dark:text-black">
+			<div className="h-16 flex items-center px-4 py-3 bg-panel-header-background dark:bg-gray-100 ">
+				<div className="flex items-center gap-12 text-white dark:text-gray-700">
 					<BiArrowBack className="cursor-pointer text-xl" onClick={onClose} />
 					<span className="text-lg">Profile</span>
 				</div>
@@ -29,16 +29,20 @@ export default function EditProfile({ userInfo, onClose }) {
 				</div>
 			</div>
 			<div className="text-left">
-				<p className="text-3xl  text-gray-400 text-center mb-5">
+				<p className="text-3xl  text-gray-400 text-center mb-5 dark:text-gray-600">
 					{userInfo.name}
 				</p>
 
 				<div className="ml-4">
-					<span className="text-gray-400 mt-6">Bio</span>
-					<p className="text-sm text-gray-300 ml-4 mb-4">{userInfo.status}</p>
+					<span className="text-gray-400 mt-6 dark:text-gray-600">Bio</span>
+					<p className="text-sm text-gray-300 ml-4 mb-4 dark:text-gray-400">
+						{userInfo.status}
+					</p>
 
-					<span className="text-gray-400">Contact</span>
-					<p className="text-sm text-gray-300 ml-4 pr-2">{userInfo.email}</p>
+					<span className="text-gray-400 dark:text-gray-600">Contact</span>
+					<p className="text-sm text-gray-300 ml-4 pr-2 dark:text-gray-400">
+						{userInfo.email}
+					</p>
 				</div>
 			</div>
 			{/* Logout Button */}

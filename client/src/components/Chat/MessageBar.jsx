@@ -129,7 +129,7 @@ export default function MessageBar() {
 	}, [grabImage]);
 
 	return (
-		<div className="bg-panel-header-background  h-20 px-4 flex items-center gap-6  relative">
+		<div className="bg-panel-header-background  h-20 px-4 flex items-center gap-6  relative dark:bg-gray-200">
 			{!showAudioRecorder && (
 				<>
 					<div className="flex gap-6">

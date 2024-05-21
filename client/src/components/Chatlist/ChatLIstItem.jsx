@@ -46,10 +46,10 @@ export default function ChatListItem({ data, isContactPage = false }) {
 
 	return (
 		<div
-			className={`flex cursor-pointer items-center dark:text-black${
+			className={`flex cursor-pointer items-center dark:text-black ${
 				currentChatUser?.id === data.id && !isContactPage
-					? 'bg-background-default-hover'
-					: 'hover:bg-background-default-hover'
+					? 'bg-background-default-hover dark:bg-gray-200'
+					: 'hover:bg-background-default-hover dark:hover:bg-gray-200'
 			}`}
 			onClick={handleContactClick}
 		>
@@ -89,7 +89,7 @@ export default function ChatListItem({ data, isContactPage = false }) {
 						</div>
 					)}
 				</div>
-				<div className="flex border-b border-conversation-border pb-2 pt-1 pr-2 dark:text-black">
+				<div className="flex border-b border-conversation-border pb-2 pt-1 pr-2 dark:text-black ">
 					<div className="flex justify-between w-full">
 						<span className="text-secondary line-clamp-1 text-sm">
 							{isContactPage ? (

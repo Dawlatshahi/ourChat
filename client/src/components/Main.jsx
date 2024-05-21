@@ -2,11 +2,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 
+import ThemeToggle from '@/ThemeToggle';
 import Chat from '@/components/Chat/Chat';
 import ChatList from '@/components/Chatlist/ChatList';
 import { useStateProvider } from '@/context/StateContext';
 import { reducerCases } from '@/context/constants';
-import ThemeToggle from '@/themeToggle';
 import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE, HOST } from '@/utils/ApiRoutes';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -164,7 +164,7 @@ export default function Main() {
 
 	return (
 		<div className="dark:bg-white bg-panel-header-background">
-			<div className="flex flex-1 justify-end dark:bg-white bg-panel-header-background p-2 border-b  dark:border-gray-300 border-gray-700">
+			<div className="flex flex-1 justify-end dark:bg-white bg-panel-header-background p-1.5 pt-2 border-b  dark:border-gray-300 border-gray-700 w-screen">
 				<ThemeToggle />
 			</div>
 			{incomingVoiceCall && <IncomingCall />}
@@ -181,7 +181,10 @@ export default function Main() {
 				</div>
 			)}
 			{!videoCall && !voiceCall && (
-				<div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden sm:w-auto">
+				<div
+					className="grid grid-cols-main  w-screen  max-w-screen overflow-hidden sm:w-auto"
+					style={{ height: `calc(100vh - ${100})` }}
+				>
 					<ChatList />
 					{currentChatUser ? (
 						<div
@@ -193,7 +196,7 @@ export default function Main() {
 							{messageSearch && <SearchMessages />}
 						</div>
 					) : (
-						<Empty className=" sm:w-screen" />
+						<Empty />
 					)}
 				</div>
 			)}

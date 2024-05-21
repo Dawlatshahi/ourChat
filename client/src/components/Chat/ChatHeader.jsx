@@ -61,9 +61,8 @@ export default function ChatHeader() {
 	};
 
 	return (
-		<div className="h-16 px-4 py-3 flex justify-between items-center bg-panel-header-background z-10 ">
+		<div className="h-16 px-4 py-3 flex justify-between items-center bg-panel-header-background z-10 mt-0 sm:p-1 dark:bg-gray-200">
 			<div className="flex items-center gap-2 sm:gap-6 relative">
-				<IoArrowBack className="text-panel-header-icon cursor-pointer text-xl lg:hidden md:hidden" />
 				<div className="relative">
 					<Avatar type="sm" image={currentChatUser?.profilePicture} />
 					{onlineUsers.includes(currentChatUser.id) && (
@@ -74,7 +73,9 @@ export default function ChatHeader() {
 					)}
 				</div>
 				<div className="flex flex-col">
-					<span className="text-primary-strong">{currentChatUser?.name}</span>
+					<span className="text-primary-strong dark:text-gray-900">
+						{currentChatUser?.name}
+					</span>
 					<span className="text-secondary text-sm">
 						{onlineUsers.includes(currentChatUser.id) ? 'online' : 'offline'}
 					</span>
@@ -82,19 +83,19 @@ export default function ChatHeader() {
 			</div>
 			<div className="flex gap-6">
 				<MdCall
-					className="text-panel-header-icon cursor-pointer text-xl"
+					className="text-panel-header-icon cursor-pointer text-xl dark:text-gray-900"
 					onClick={handleVoiceCall}
 				/>
 				<IoVideocam
-					className="text-panel-header-icon cursor-pointer text-xl"
+					className="text-panel-header-icon cursor-pointer text-xl dark:text-gray-900"
 					onClick={handleVideoCall}
 				/>
 				<BiSearchAlt2
-					className="text-panel-header-icon cursor-pointer text-xl"
+					className="text-panel-header-icon cursor-pointer text-xl dark:text-gray-900"
 					onClick={() => dispatch({ type: reducerCases.SET_MESSAGES_SEARCH })}
 				/>
 				<BsThreeDotsVertical
-					className="text-panel-header-icon cursor-pointer text-xl"
+					className="text-panel-header-icon cursor-pointer text-xl dark:text-gray-900"
 					onClick={(e) => showContextMenu(e)}
 					id="context-opener"
 				/>
