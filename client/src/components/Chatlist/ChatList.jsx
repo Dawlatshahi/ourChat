@@ -1,12 +1,12 @@
 import { useStateProvider } from '@/context/StateContext';
 import { reducerCases } from '@/context/constants';
+
 import React, { useEffect, useState } from 'react';
 import ChatListHeader from './ChatListHeader';
 import ContactsList from './ContactsList';
 import EditProfile from './EditProfile';
 import List from './List';
 import SearchBar from './SearchBar';
-
 export default function ChatList() {
 	const [{ contactsPage, editProfilePage, userInfo }, dispatch] =
 		useStateProvider();
@@ -48,7 +48,7 @@ export default function ChatList() {
 	};
 
 	return (
-		<div className="bg-panel-header-background flex flex-col max-h-screen z-20 ">
+		<div className="bg-panel-header-background flex flex-col max-h-screen z-20 dark:bg-medium">
 			{renderContent()}
 		</div>
 	);

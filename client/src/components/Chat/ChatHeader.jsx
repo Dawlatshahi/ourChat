@@ -1,5 +1,6 @@
 import { useStateProvider } from '@/context/StateContext';
 import { reducerCases } from '@/context/constants';
+
 import React, { useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -60,7 +61,7 @@ export default function ChatHeader() {
 	};
 
 	return (
-		<div className="h-16 px-4 py-3 flex justify-between items-center bg-panel-header-background z-10">
+		<div className="h-16 px-4 py-3 flex justify-between items-center bg-panel-header-background z-10 ">
 			<div className="flex items-center gap-2 sm:gap-6 relative">
 				<IoArrowBack className="text-panel-header-icon cursor-pointer text-xl lg:hidden md:hidden" />
 				<div className="relative">
@@ -97,6 +98,7 @@ export default function ChatHeader() {
 					onClick={(e) => showContextMenu(e)}
 					id="context-opener"
 				/>
+
 				{isContextMenuVisible && (
 					<ContextMenu
 						options={contextMenuOptions}

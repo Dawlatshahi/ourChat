@@ -1,5 +1,6 @@
 import { useStateProvider } from '@/context/StateContext';
 import { reducerCases } from '@/context/constants';
+
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -41,23 +42,24 @@ export default function ChatListHeader() {
 	};
 
 	return (
-		<div className="h-16 px-4 py-3 flex justify-between items-center z-20 w-full bg-panel-header-background">
+		<div className="h-16 px-4 py-3 flex justify-between items-center z-20 w-full bg-panel-header-background dark:bg-white  dark:text-black ">
 			<div className="cursor-pointer" onClick={handleEditProfilePage}>
 				<Avatar type="sm" image={userInfo?.profileImage} />
 			</div>
 			<div className="flex gap-6">
 				<RiChatNewFill
-					className="text-panel-header-icon cursor-pointer text-2xl"
+					className="text-panel-header-icon cursor-pointer text-2xl  dark:text-black"
 					title="New chat"
 					onClick={handleAllContactsPage}
 				/>
 				<>
 					<BsThreeDotsVertical
-						className="text-panel-header-icon cursor-pointer text-2xl"
+						className="text-panel-header-icon cursor-pointer text-2xl  dark:text-black"
 						title="Menu"
 						onClick={(e) => showContextMenu(e)}
 						id="context-opener"
 					/>
+
 					{isContextMenuVisible && (
 						<ContextMenu
 							options={contextMenuOptions}

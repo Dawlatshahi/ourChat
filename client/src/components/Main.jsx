@@ -6,6 +6,7 @@ import Chat from '@/components/Chat/Chat';
 import ChatList from '@/components/Chatlist/ChatList';
 import { useStateProvider } from '@/context/StateContext';
 import { reducerCases } from '@/context/constants';
+import ThemeToggle from '@/themeToggle';
 import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE, HOST } from '@/utils/ApiRoutes';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -162,7 +163,10 @@ export default function Main() {
 	}, [currentChatUser]);
 
 	return (
-		<div>
+		<div className="dark:bg-white bg-panel-header-background">
+			<div className="flex flex-1 justify-end dark:bg-white bg-panel-header-background p-2 border-b  dark:border-gray-300 border-gray-700">
+				<ThemeToggle />
+			</div>
 			{incomingVoiceCall && <IncomingCall />}
 			{incomingVideoCall && <IncomingVideoCall />}
 
@@ -177,7 +181,7 @@ export default function Main() {
 				</div>
 			)}
 			{!videoCall && !voiceCall && (
-				<div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden border border-gray-700 sm:w-auto">
+				<div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden sm:w-auto">
 					<ChatList />
 					{currentChatUser ? (
 						<div

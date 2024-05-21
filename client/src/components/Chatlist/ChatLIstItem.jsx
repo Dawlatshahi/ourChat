@@ -46,7 +46,7 @@ export default function ChatListItem({ data, isContactPage = false }) {
 
 	return (
 		<div
-			className={`flex cursor-pointer items-center ${
+			className={`flex cursor-pointer items-center dark:text-black${
 				currentChatUser?.id === data.id && !isContactPage
 					? 'bg-background-default-hover'
 					: 'hover:bg-background-default-hover'
@@ -71,7 +71,9 @@ export default function ChatListItem({ data, isContactPage = false }) {
 			<div className="flex flex-col justify-center mt-3 pr-2 w-full">
 				<div className="flex justify-between">
 					<div>
-						<span className="text-white text-md">{data?.name}</span>
+						<span className="text-white text-md  dark:text-black">
+							{data?.name}
+						</span>
 					</div>
 					{!isContactPage && (
 						<div>
@@ -87,13 +89,13 @@ export default function ChatListItem({ data, isContactPage = false }) {
 						</div>
 					)}
 				</div>
-				<div className="flex border-b border-conversation-border pb-2 pt-1 pr-2">
+				<div className="flex border-b border-conversation-border pb-2 pt-1 pr-2 dark:text-black">
 					<div className="flex justify-between w-full">
 						<span className="text-secondary line-clamp-1 text-sm">
 							{isContactPage ? (
 								data?.about || '\u00A0'
 							) : (
-								<div className="flex items-center gap-1 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[200px] xl:max-w-[300px]">
+								<div className="flex items-center gap-1 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[200px] xl:max-w-[300px] dark:text-black">
 									{data.senderId === userInfo.id && (
 										<MessageStatus messageStatus={data.messageStatus} />
 									)}
@@ -107,14 +109,14 @@ export default function ChatListItem({ data, isContactPage = false }) {
 										</span>
 									)}
 									{data.type === 'audio' && (
-										<span className="flex gap-1 items-center">
-											<FaMicrophone className="text-panel-header-icon" />
+										<span className="flex gap-1 items-center  dark:text-black">
+											<FaMicrophone className="text-panel-header-icon  dark:text-black" />
 											Audio
 										</span>
 									)}
 									{data.type === 'image' && (
-										<span className="flex gap-1 items-center">
-											<FaCamera className="text-panel-header-icon" />
+										<span className="flex gap-1 items-center  dark:text-black">
+											<FaCamera className="text-panel-header-icon  dark:text-black" />
 											Image
 										</span>
 									)}

@@ -28,8 +28,10 @@ export default function List() {
 	}, [userInfo, dispatch]);
 
 	return (
-		<div className="bg-search-input-container-background flex-auto overflow-auto max-h-full custom-scrollbar">
-			<span className="text-gray-300 text-xl ml-4 mt-8">Chats</span>
+		<div className="bg-search-input-container-background flex-auto overflow-auto max-h-full custom-scrollbar dark:bg-white dark:text-black">
+			<span className="text-gray-300 text-xl ml-4 mt-8  dark:text-black">
+				Chats
+			</span>
 			<hr className="mt-1 mb-1 border-gray-800" />
 			{filteredContacts && filteredContacts.length > 0
 				? filteredContacts.map((contact) => {

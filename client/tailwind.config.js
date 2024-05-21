@@ -7,6 +7,9 @@ module.exports = {
 				'chat-background': "url('/chat-bg.png')",
 			},
 			colors: {
+				dark: '#D3D3D3',
+				medium: '#293245',
+
 				secondary: '#8696a0',
 				'teal-light': '#7ae3c3',
 				'photopicker-overlay-background': 'rgba(30,42,49,0.8)',
@@ -35,4 +38,5 @@ module.exports = {
 		},
 	},
 	plugins: [],
+	darkMode: 'class',
 };
