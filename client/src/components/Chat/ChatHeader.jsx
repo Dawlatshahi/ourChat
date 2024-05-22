@@ -22,7 +22,7 @@ export default function ChatHeader() {
 
 	const showContextMenu = (e) => {
 		e.preventDefault();
-		setContextMenuCoordinates({ x: e.pageX - 50, y: e.pageY + 20 });
+		setContextMenuCoordinates({ x: e.pageX - 70, y: e.pageY - 15 });
 		setIsContextMenuVisible(true);
 	};
 

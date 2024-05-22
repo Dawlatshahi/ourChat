@@ -49,7 +49,7 @@ function ContactsList() {
 
 	return (
 		<div className="h-full flex flex-col">
-			<div className="h-24 flex items-end px-3 py-4 dark:bg-white">
+			<div className="h-16 flex items-end px-3 py-4 dark:bg-gray-200">
 				<div className="flex  items-center gap-12 text-white dark:text-black ">
 					<BiArrowBack
 						className=" cursor-pointer text-xl"
@@ -60,7 +60,7 @@ function ContactsList() {
 					<span className="">New Chat</span>
 				</div>
 			</div>
-			<div className="bg-search-input-container-background h-full flex-auto overflow-auto custom-scrollbar dark:bg-white">
+			<div className="bg-search-input-container-background h-full flex-auto overflow-auto custom-scrollbar dark:bg-white ">
 				<div className=" flex py-3 px-4 items-center gap-3 h-14">
 					<div className="bg-panel-header-background flex items-center gap-5 px-3 py-1 rounded-lg flex-grow dark:bg-gray-300">
 						<div>

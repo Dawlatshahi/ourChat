@@ -14,7 +14,6 @@ export default function Login() {
 	const router = useRouter();
 	const [{ userInfo, newUser }, dispatch] = useStateProvider();
 	useEffect(() => {
-		console.log({ userInfo });
 		if (userInfo?.id && !newUser) router.push('/');
 	}, [userInfo, newUser, router]);
 	const login = async () => {

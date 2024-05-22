@@ -5,7 +5,7 @@ export default function ChatListToggle({ showChatList, toggleChatList }) {
 	return (
 		<button
 			onClick={toggleChatList}
-			className="toggle-button bg-search-input-container-background text-dropdown-background items-center w-screen h-12 "
+			className="toggle-button bg-search-input-container-background text-dropdown-background items-center w-screen h-8 "
 			style={{ marginTop: 0, marginBottom: 0 }}
 		>
 			{showChatList ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />}

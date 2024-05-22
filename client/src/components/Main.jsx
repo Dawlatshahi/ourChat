@@ -10,6 +10,7 @@ import { reducerCases } from '@/context/constants';
 import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE, HOST } from '@/utils/ApiRoutes';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { IoLogoWechat } from 'react-icons/io5';
 import { decrypt } from '../services/encryption.service';
 import { firebaseAuth } from '../utils/FirebaseConfig';
 import VideoCall from './Call/VideoCall';
@@ -163,10 +164,15 @@ export default function Main() {
 	}, [currentChatUser]);
 
 	return (
-		<div className="dark:bg-white bg-panel-header-background">
-			<div className="flex flex-1 justify-end dark:bg-white bg-panel-header-background p-1.5 pt-2 border-b  dark:border-gray-300 border-gray-700 w-screen">
-				<ThemeToggle />
-			</div>
+		<div className="dark:bg-white bg-panel-header-background min-w-screen">
+			{!voiceCall && !videoCall && (
+				<div className="flex flex-1 justify-between dark:bg-white bg-panel-header-background h-[6vh] p-2 pt-2 border dark:border-gray-300 border-gray-700 w-full pr-8">
+					<IoLogoWechat className="text-gray-400 h-8  w-auto dark:text-gray-600 pl-8" />
+					<div className="text-xl text-white dark:text-black">ourChat</div>
+
+					<ThemeToggle className="" />
+				</div>
+			)}
 			{incomingVoiceCall && <IncomingCall />}
 			{incomingVideoCall && <IncomingVideoCall />}
 
@@ -181,10 +187,7 @@ export default function Main() {
 				</div>
 			)}
 			{!videoCall && !voiceCall && (
-				<div
-					className="grid grid-cols-main  w-screen  max-w-screen overflow-hidden sm:w-auto"
-					style={{ height: `calc(100vh - ${100})` }}
-				>
+				<div className="grid grid-cols-main  w-screen  max-w-screen  sm:w-auto ">
 					<ChatList />
 					{currentChatUser ? (
 						<div

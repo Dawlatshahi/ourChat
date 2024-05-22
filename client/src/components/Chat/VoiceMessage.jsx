@@ -90,8 +90,8 @@ function VoiceMessage({ message }) {
 		<div
 			className={`flex items-center gap-5 text-white px-4  py-8 text-sm rounded-md h-14   ${
 				message.senderId === currentChatUser.id
-					? 'bg-incoming-background'
-					: 'bg-outgoing-background'
+					? 'bg-incoming-background dark:bg-gray-500'
+					: 'bg-outgoing-background dark:bg-gray-700'
 			}`}
 		>
 			{/* <div>

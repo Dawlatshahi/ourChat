@@ -56,7 +56,7 @@ export default function ChatContainer() {
 
 	return (
 		<div className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar dark:bg-gray-50  ">
-			<div className="bg-chat-background bg-fixed opacity-5 h-full w-full fixed left-0 top-0 z-0 mt-12 dark:opacity-8 dark:bg-chat-light-bg"></div>
+			<div className="bg-chat-background bg-fixed opacity-5 h-full w-full fixed left-0 top-0 z-0 mt-14 dark:opacity-8 dark:bg-chat-light-bg"></div>
 			<div className="mx-10 my-6 relative bottom-0 z-40 left-0">
 				<div className="flex w-full">
 					<div className="flex flex-col justify-end w-full gap-1 overflow-auto">
@@ -75,8 +75,8 @@ export default function ChatContainer() {
 											<div
 												className={`text-white px-2 py-[2px] text-sm rounded-md flex flex-col gap-1 items-start max-w-[70%] overflow-x-hidden relative dark:text-white ${
 													message.senderId === currentChatUser.id
-														? 'bg-incoming-background dark:bg-gray-300'
-														: 'bg-outgoing-background dark:bg-gray-400'
+														? 'bg-incoming-background dark:bg-gray-500'
+														: 'bg-outgoing-background dark:bg-gray-700'
 												}`}
 											>
 												{message.senderId === userInfo.id && (

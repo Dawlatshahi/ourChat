@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function Chat() {
 	return (
-		<div className="border-conversation-border border-l w-full bg-conversation-panel-background flex flex-col h-[95vh] z-10  ">
+		<div className="border-conversation-border border-l w-full bg-conversation-panel-background flex flex-col h-[94vh] z-10 dark:bg-gray-300">
 			<ChatHeader />
 			<ChatContainer />
 			<MessageBar />

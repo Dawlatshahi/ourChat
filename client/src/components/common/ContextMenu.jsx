@@ -44,7 +44,7 @@ export default function ContextMenu({
 
 	return (
 		<div
-			className={`bg-dropdown-background fixed py-2 z-[100]`}
+			className={`bg-dropdown-background fixed py-1 z-100 dark:bg-gray-300 dark:text-black rounded-md`}
 			ref={contextMenuRef}
 			style={{
 				boxShadow:
@@ -57,10 +57,10 @@ export default function ContextMenu({
 				{options.map(({ name, callBack }, index) => (
 					<li
 						key={index}
-						className="hover:bg-background-default-hover px-5 py-2 cursor-pointer"
+						className="hover:bg-background-default-hover px-5 py-2 cursor-pointer dark:hover:bg-gray-400"
 					>
 						<span
-							className="text-white"
+							className="text-white dark:text-black"
 							onClick={(e) => handleClick(e, callBack)}
 						>
 							{name}

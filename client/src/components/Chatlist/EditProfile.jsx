@@ -11,7 +11,7 @@ export default function EditProfile({ userInfo, onClose }) {
 
 	return (
 		<div className="h-full flex flex-col bg-search-input-container-background dark:bg-white dark:text-black">
-			<div className="h-16 flex items-center px-4 py-3 bg-panel-header-background dark:bg-gray-100 ">
+			<div className="h-16 flex items-center px-4 py-3 bg-panel-header-background dark:bg-gray-200 ">
 				<div className="flex items-center gap-12 text-white dark:text-gray-700">
 					<BiArrowBack className="cursor-pointer text-xl" onClick={onClose} />
 					<span className="text-lg">Profile</span>

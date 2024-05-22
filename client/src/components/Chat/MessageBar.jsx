@@ -134,7 +134,7 @@ export default function MessageBar() {
 				<>
 					<div className="flex gap-6">
 						<BsEmojiSmile
-							className="text-panel-header-icon cursor-pointer text-xl"
+							className="text-panel-header-icon cursor-pointer text-xl dark:text-black"
 							title="Emoji"
 							onClick={handleEmojiModal}
 							id="emoji-open"
@@ -148,7 +148,7 @@ export default function MessageBar() {
 							</div>
 						)}
 						<ImAttachment
-							className="text-panel-header-icon cursor-pointer text-xl"
+							className="text-panel-header-icon cursor-pointer text-xl dark:text-black"
 							title="Attach"
 							onClick={() => setGrabImage(true)}
 						/>
@@ -156,8 +156,8 @@ export default function MessageBar() {
 					<div className="w-full rounded-lg h-10 flex items-center">
 						<input
 							type="text"
-							placeholder="Type a message"
-							className="bg-input-background text-sm focus:outline-none text-white h-10 rounded-lg pl-5 pr-5 py-4 w-full"
+							placeholder="Type message here"
+							className="bg-input-background text-sm focus:outline-none text-white h-10 rounded-lg pl-5 pr-5 py-4 w-full dark:bg-gray-50 dark:text-black"
 							value={message}
 							onChange={(e) => setMessage(e.target.value)}
 							onKeyPress={(e) => {
@@ -171,13 +171,13 @@ export default function MessageBar() {
 						{message.length ? (
 							<button onClick={sendMessage}>
 								<MdSend
-									className="text-panel-header-icon cursor-pointer text-xl"
+									className="text-panel-header-icon cursor-pointer text-xl dark:text-black"
 									title="Send"
 								/>
 							</button>
 						) : (
 							<FaMicrophone
-								className="text-panel-header-icon cursor-pointer text-xl"
+								className="text-panel-header-icon cursor-pointer text-xl dark:text-black"
 								title="Record"
 								onClick={() => setShowAudioRecorder(true)}
 							/>
