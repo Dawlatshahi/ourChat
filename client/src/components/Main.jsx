@@ -168,9 +168,11 @@ export default function Main() {
 			{!voiceCall && !videoCall && (
 				<div className="flex flex-1 justify-between dark:bg-white bg-panel-header-background h-[6vh] p-2 pt-2 border dark:border-gray-300 border-gray-700 w-full pr-8">
 					<IoLogoWechat className="text-gray-400 h-8  w-auto dark:text-gray-600 pl-8" />
-					<div className="text-xl text-white dark:text-black">ourChat</div>
+					<div className="text-xl text-white dark:text-black mt-1">ourChat</div>
 
-					<ThemeToggle className="" />
+					<div className="mt-1">
+						<ThemeToggle className="" />
+					</div>
 				</div>
 			)}
 			{incomingVoiceCall && <IncomingCall />}
