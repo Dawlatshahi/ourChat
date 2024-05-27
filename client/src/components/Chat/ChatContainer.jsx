@@ -2,7 +2,7 @@ import { useStateProvider } from '@/context/StateContext';
 import { DELETE_MESSAGE_ROUTE } from '@/utils/ApiRoutes';
 import { calculateTime } from '@/utils/CalculateTime';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BsCheckAll, BsCheckLg, BsTrash } from 'react-icons/bs';
 import MessageStatus from '../common/MessageStatus';
 import ImageMessage from './ImageMessage';
@@ -16,18 +16,44 @@ export default function ChatContainer() {
 		useStateProvider();
 
 	const containerRef = useRef(null);
+	const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+	const [displayedMessages, setDisplayedMessages] = useState([]);
+	const [page, setPage] = useState(1);
+	const MESSAGES_PER_PAGE = 15;
+
+	useEffect(() => {
+		setDisplayedMessages(messages.slice(-MESSAGES_PER_PAGE));
+		setPage(1);
+	}, [messages]);
+
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container) return;
 
-		const lastMessage =
-			container.lastElementChild?.lastElementChild?.lastElementChild
-				?.lastElementChild;
+		const handleScroll = () => {
+			if (container.scrollTop === 0) {
+				loadMoreMessages();
+			}
+		};
 
-		if (lastMessage) {
-			lastMessage.scrollIntoView({ behavior: 'smooth' });
-		}
-	}, [messages]);
+		container.addEventListener('scroll', handleScroll);
+		return () => {
+			container.removeEventListener('scroll', handleScroll);
+		};
+	}, [displayedMessages, messages]);
+
+	const loadMoreMessages = () => {
+		const startIndex = messages.length - (page + 1) * MESSAGES_PER_PAGE;
+		if (startIndex < 0) return;
+
+		const moreMessages = messages.slice(
+			startIndex,
+			messages.length - page * MESSAGES_PER_PAGE
+		);
+		setDisplayedMessages((prevMessages) => [...moreMessages, ...prevMessages]);
+		setPage((prevPage) => prevPage + 1);
+	};
 
 	const [deletedMessages, setDeletedMessages] = useState({});
 
@@ -54,13 +80,41 @@ export default function ChatContainer() {
 		}
 	};
 
+	useEffect(() => {
+		const container = containerRef.current;
+		if (!container) return;
+
+		const handleInitialLoad = () => {
+			container.scrollTop = container.scrollHeight - container.clientHeight;
+			setIsInitialLoad(false);
+		};
+
+		if (isInitialLoad) {
+			setTimeout(handleInitialLoad, 0);
+		} else {
+			const newMessagesHeight = container.scrollHeight - container.clientHeight;
+
+			if (
+				messages.length === displayedMessages.length ||
+				container.scrollTop === container.scrollHeight - container.clientHeight
+			) {
+				container.scrollTop = container.scrollHeight - container.clientHeight;
+			} else {
+				container.scrollTop = container.scrollHeight - newMessagesHeight;
+			}
+		}
+	}, [displayedMessages, messages.length, isInitialLoad]);
+
 	return (
-		<div className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar dark:bg-gray-50  ">
+		<div
+			ref={containerRef}
+			className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar dark:bg-gray-50"
+		>
 			<div className="bg-chat-background bg-fixed opacity-5 h-full w-full fixed left-0 top-0 z-0 mt-14 dark:opacity-8 dark:bg-chat-light-bg"></div>
 			<div className="mx-10 my-6 relative bottom-0 z-40 left-0">
 				<div className="flex w-full">
 					<div className="flex flex-col justify-end w-full gap-1 overflow-auto">
-						{messages.map((message, index) => (
+						{displayedMessages.map((message, index) => (
 							<div
 								key={index}
 								className={`flex ${
@@ -118,7 +172,7 @@ export default function ChatContainer() {
 																	message.type
 																)
 															}
-															className="absolute top-2 right-2 text-gray-300 text-xs ml-2 flex items-center bg-outgoing-background p-1 rounded "
+															className="absolute top-2 right-2 text-gray-300 text-xs ml-2 flex items-center bg-outgoing-background p-1 rounded"
 														>
 															<BsTrash size={14} className="cursor-pointer" />
 														</button>

@@ -58,8 +58,12 @@ export default function MessageBar() {
 
 	const [{ socket, currentChatUser, userInfo }, dispatch] = useStateProvider();
 	const sendMessage = async () => {
+		if (message.trim().length === 0) {
+			return;
+		}
 		try {
 			let encrypted = encrypt(message);
+			console.log('Encrypted message size:', encrypted.length);
 			setMessage('');
 			const { data } = await axios.post(ADD_MESSAGE_ROUTE, {
 				to: currentChatUser.id,
@@ -80,7 +84,7 @@ export default function MessageBar() {
 				fromSelf: true,
 			});
 		} catch (err) {
-			console.log(err);
+			console.log('Error sending message:', err);
 		}
 	};
 
