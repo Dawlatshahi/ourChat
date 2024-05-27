@@ -2,8 +2,8 @@ import { useStateProvider } from '@/context/StateContext';
 import { DELETE_MESSAGE_ROUTE } from '@/utils/ApiRoutes';
 import { calculateTime } from '@/utils/CalculateTime';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { BsCheckAll, BsCheckLg, BsTrash } from 'react-icons/bs';
+import React, { useEffect, useRef, useState } from 'react';
+import { BsTrash } from 'react-icons/bs';
 import MessageStatus from '../common/MessageStatus';
 import ImageMessage from './ImageMessage';
 
@@ -25,6 +25,7 @@ export default function ChatContainer() {
 	useEffect(() => {
 		setDisplayedMessages(messages.slice(-MESSAGES_PER_PAGE));
 		setPage(1);
+		setIsInitialLoad(true);
 	}, [messages]);
 
 	useEffect(() => {
@@ -32,8 +33,11 @@ export default function ChatContainer() {
 		if (!container) return;
 
 		const handleScroll = () => {
-			if (container.scrollTop === 0) {
-				loadMoreMessages();
+			if (
+				container.scrollTop === 0 &&
+				displayedMessages.length < messages.length
+			) {
+				loadAllMessages();
 			}
 		};
 
@@ -41,17 +45,37 @@ export default function ChatContainer() {
 		return () => {
 			container.removeEventListener('scroll', handleScroll);
 		};
-	}, [displayedMessages, messages]);
+	}, [displayedMessages]);
 
-	const loadMoreMessages = () => {
-		const startIndex = messages.length - (page + 1) * MESSAGES_PER_PAGE;
-		if (startIndex < 0) return;
+	const loadAllMessages = () => {
+		const container = containerRef.current;
+		if (!container) return;
 
-		const moreMessages = messages.slice(
-			startIndex,
-			messages.length - page * MESSAGES_PER_PAGE
-		);
-		setDisplayedMessages((prevMessages) => [...moreMessages, ...prevMessages]);
+		const previousScrollHeight = container.scrollHeight;
+		const previousScrollTop = container.scrollTop;
+		const wasAtBottom =
+			container.scrollHeight - container.clientHeight <=
+			container.scrollTop + 1;
+
+		setDisplayedMessages((prevMessages) => {
+			const newMessages = messages.slice(
+				0,
+				messages.length - prevMessages.length
+			);
+			const updatedMessages = [...newMessages, ...prevMessages];
+
+			setTimeout(() => {
+				if (wasAtBottom) {
+					container.scrollTop = container.scrollHeight - container.clientHeight;
+				} else {
+					container.scrollTop =
+						previousScrollTop + (container.scrollHeight - previousScrollHeight);
+				}
+			}, 0);
+
+			return updatedMessages;
+		});
+
 		setPage((prevPage) => prevPage + 1);
 	};
 
@@ -86,24 +110,20 @@ export default function ChatContainer() {
 
 		const handleInitialLoad = () => {
 			container.scrollTop = container.scrollHeight - container.clientHeight;
-			setIsInitialLoad(false);
 		};
 
 		if (isInitialLoad) {
 			setTimeout(handleInitialLoad, 0);
-		} else {
-			const newMessagesHeight = container.scrollHeight - container.clientHeight;
-
-			if (
-				messages.length === displayedMessages.length ||
-				container.scrollTop === container.scrollHeight - container.clientHeight
-			) {
-				container.scrollTop = container.scrollHeight - container.clientHeight;
-			} else {
-				container.scrollTop = container.scrollHeight - newMessagesHeight;
-			}
+			setIsInitialLoad(false);
 		}
-	}, [displayedMessages, messages.length, isInitialLoad]);
+	}, [isInitialLoad]);
+
+	useEffect(() => {
+		const container = containerRef.current;
+		if (container && !isInitialLoad) {
+			container.scrollTop = container.scrollHeight - container.clientHeight;
+		}
+	}, [messages]);
 
 	return (
 		<div
