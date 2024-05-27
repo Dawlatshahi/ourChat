@@ -60,14 +60,17 @@ export const getMessages = async (req, res, next) => {
 			}
 		});
 
-		await prisma.messages.updateMany({
-			where: {
-				id: { in: unreadMessages },
-			},
-			data: {
-				messageStatus: 'read',
-			},
-		});
+		if (onlineUsers.has(parseInt(to))) {
+			await prisma.messages.updateMany({
+				where: {
+					id: { in: unreadMessages },
+				},
+				data: {
+					messageStatus: 'read',
+				},
+			});
+		}
+
 		messages.forEach((message, index) => {
 			if (message.type == 'text') {
 				let decrypted = serverDecrypt(message.message);
@@ -134,7 +137,7 @@ export const getInitialContactsWithMessages = async (req, res, next) => {
 		messages.forEach((msg) => {
 			const isSender = msg.senderId === userId;
 			const calculatedId = isSender ? msg.recieverId : msg.senderId;
-			if (msg.messageStatus === 'sent') {
+			if (msg.messageStatus === 'sent' && onlineUsers.has(calculatedId)) {
 				messageStatusChange.push(msg.id);
 			}
 			if (!users.get(calculatedId)) {
