@@ -1,6 +1,5 @@
 import forge from 'node-forge';
-const {pki} = forge;
-
+const { pki } = forge;
 
 // used for sending messages to client (pair 2)
 let clientPublicKey = "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqqk9vzu/hzGyHrF18xz0nRMGDOdq6kkulaoOhRdKN1uDnrlxMTZj+pVDkyrac2Yt4H7NT4TwAlF43ziiEsfQ+tSBlRsmLeYqMkadSMXOa2hXg61QiBzPxVpezawF23Q9MhsPpuQohADvEr/7Z7LapM+ALnqnMUJ6mbPMnzjQYCSNMaxwumwh6a42PPkdMH9w1FyWPXybWptYpge1QRenDROp/J7ckBBmMjPL0fXcD+F5GthC+srN+t5bRp7bWqouFLZEt/bLt7UPglRS4SqlUKk1rKZD/yDp6foFP/Qfs/q8srawAm0LQ7wOxP+BaArN9OK1B2rZMaiELFoLoy0MqQIDAQAB\n-----END PUBLIC KEY-----";
@@ -16,10 +15,10 @@ let serverPrivateKey = "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQE
 
 
 
-export function clientEncrypt(message){
-    let rsa = pki.publicKeyFromPem(clientPublicKey)
-    let encrypted = btoa(rsa.encrypt(message))
-    return encrypted;
+export function clientEncrypt(message) {
+	let rsa = pki.publicKeyFromPem(clientPublicKey);
+	let encrypted = btoa(rsa.encrypt(message));
+	return encrypted;
 }
 
 export function clientDecrypt(message){
@@ -31,15 +30,15 @@ export function clientDecrypt(message){
     return decrypted
 }
 
-export function serverEncrypt(message){
-    let rsa = pki.publicKeyFromPem(serverPublicKey)
-    let encrypted = btoa(rsa.encrypt(message))
-    return encrypted;
+export function serverEncrypt(message) {
+	let rsa = pki.publicKeyFromPem(serverPublicKey);
+	let encrypted = btoa(rsa.encrypt(message));
+	return encrypted;
 }
 
-export function serverDecrypt(message){
-    let rsa = pki.privateKeyFromPem(serverPrivateKey)
-    let decoded = atob(message);
-    let decrypted = rsa.decrypt(decoded);
-    return decrypted
+export function serverDecrypt(message) {
+	let rsa = pki.privateKeyFromPem(serverPrivateKey);
+	let decoded = atob(message);
+	let decrypted = rsa.decrypt(decoded);
+	return decrypted;
 }
