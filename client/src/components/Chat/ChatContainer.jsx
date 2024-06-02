@@ -130,7 +130,7 @@ export default function ChatContainer() {
 			ref={containerRef}
 			className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar dark:bg-gray-50"
 		>
-			<div className="bg-chat-background bg-fixed opacity-5 h-full w-full fixed left-0 top-0 z-0 mt-14 dark:opacity-8 dark:bg-chat-light-bg"></div>
+			<div className="bg-chat-background bg-fixed opacity-5 h-full w-full fixed left-0 top-0 z-0 mt-14  dark:bg-chat-light-bg dark:opacity-50"></div>
 			<div className="mx-10 my-6 relative bottom-0 z-40 left-0">
 				<div className="flex w-full">
 					<div className="flex flex-col justify-end w-full gap-1 overflow-auto">

@@ -5,7 +5,7 @@ module.exports = {
 		extend: {
 			backgroundImage: {
 				'chat-background': "url('/chat-bg.png')",
-				'chat-light-bg': "url('/bg-light1.jpg')",
+				'chat-light-bg': "url('/bg-light.png')",
 			},
 			colors: {
 				dark: '#D3D3D3',
