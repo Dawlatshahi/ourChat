@@ -60,7 +60,7 @@ export const getMessages = async (req, res, next) => {
 			}
 		});
 
-		if (onlineUsers.has(parseInt(to))) {
+		if (onlineUsers.has(parseInt(from))) {
 			await prisma.messages.updateMany({
 				where: {
 					id: { in: unreadMessages },

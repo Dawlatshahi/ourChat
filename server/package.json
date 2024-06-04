@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.14.0",
+    "@seald-io/sdk": "^0.29.1",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
