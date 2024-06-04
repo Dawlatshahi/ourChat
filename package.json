@@ -1,14 +1,15 @@
 {
-  "name": "ourChat",
-  "version": "0.1.0",
-  "private": true,
-  "license": "MIT",
-  "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.5.2"
-  },
-  "scripts": {
-    "install:client": "cd client && yarn install",
-    "install:server": "cd server && yarn install",
-    "install:all": "yarn install && yarn install:client && yarn install:server"
-  }
+	"name": "ourChat",
+	"version": "0.1.0",
+	"start": "node server.js",
+	"private": true,
+	"license": "MIT",
+	"dependencies": {
+		"@fortawesome/free-solid-svg-icons": "^6.5.2"
+	},
+	"scripts": {
+		"install:client": "cd client && yarn install",
+		"install:server": "cd server && yarn install",
+		"install:all": "yarn install && yarn install:client && yarn install:server"
+	}
 }
