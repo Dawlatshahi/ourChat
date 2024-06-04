@@ -10,15 +10,15 @@ function SearchMessages() {
 	const [searchBarFocus, setSearchBarFocus] = useState(false);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [searchedMessages, setSearchedMessages] = useState([]);
-
 	useEffect(() => {
-		if (searchTerm) {
-			setSearchedMessages(
-				messages.filter(
-					(message) =>
-						message.type === 'text' && message.message.includes(searchTerm)
-				)
+		const lowerCaseSearchTerm = searchTerm.toLowerCase();
+		if (lowerCaseSearchTerm) {
+			const filteredMessages = messages.filter(
+				(message) =>
+					message.type === 'text' &&
+					message.message.toLowerCase().includes(lowerCaseSearchTerm)
 			);
+			setSearchedMessages(filteredMessages);
 		} else {
 			setSearchedMessages([]);
 		}
