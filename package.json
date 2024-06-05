@@ -1,19 +1,16 @@
 {
 	"name": "ourChat",
 	"version": "0.1.0",
-	"start": "node server.js",
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
 		"@fortawesome/free-solid-svg-icons": "^6.5.2"
 	},
 	"scripts": {
-		"install:client": "cd client && yarn install",
-		"install:server": "cd server && yarn install && npx prisma generate",
-		"install:all": "yarn install && yarn install:client && yarn install:server",
-		"build:client": "cd client && yarn build",
+		"install:all": "yarn install && yarn build:client && yarn build:server",
+		"build:client": "cd client && yarn install && yarn build",
 		"start:client": "cd client && yarn dev",
-		"build:server": "cd server && yarn build",
+		"build:server": "cd server && yarn install && npx prisma generate && yarn build",
 		"start:server": "cd server && yarn start"
 	}
 }
