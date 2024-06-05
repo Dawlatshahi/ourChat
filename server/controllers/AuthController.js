@@ -45,11 +45,11 @@ export const onBoardUser = async (request, response, next) => {
 
 export const updateProfile = async (req, res, next) => {
 	try {
-		const { userId, name, about, profilePicture } = req.body;
+		const { userId, name, bio, profilePicture } = req.body;
 
 		console.log('Received userId:', userId);
 		console.log('Received name:', name);
-		console.log('Received about:', about);
+		console.log('Received bio:', bio);
 		console.log('Received profilePicture:', profilePicture);
 
 		if (!userId || !name || !profilePicture) {
@@ -60,7 +60,7 @@ export const updateProfile = async (req, res, next) => {
 		const prisma = getPrismaInstance();
 		const updatedUser = await prisma.user.update({
 			where: { id: userId },
-			data: { name, about, profilePicture },
+			data: { name, about: bio, profilePicture },
 		});
 		return res.status(200).json({
 			message: 'Profile updated successfully',

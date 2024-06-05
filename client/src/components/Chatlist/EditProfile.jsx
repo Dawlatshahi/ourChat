@@ -2,6 +2,7 @@ import { UPDATE_PROFILE_ROUTE } from '@/utils/ApiRoutes';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { BiArrowBack, BiEdit, BiLogOut, BiSave } from 'react-icons/bi';
+import { toast } from 'react-toastify';
 
 export default function EditProfile({ userInfo, onClose }) {
 	const router = useRouter();
@@ -23,7 +24,6 @@ export default function EditProfile({ userInfo, onClose }) {
 
 	const handleSaveAndClose = async () => {
 		try {
-			console.log({ userInfo });
 			const response = await fetch(UPDATE_PROFILE_ROUTE, {
 				method: 'POST',
 				headers: {
@@ -32,18 +32,21 @@ export default function EditProfile({ userInfo, onClose }) {
 				body: JSON.stringify({
 					userId: userInfo.id,
 					name,
-					bio,
+					about: bio, // Change this to `about` to match the backend
 					profilePicture: userInfo.profileImage,
 				}),
 			});
 			if (response.ok) {
+				const result = await response.json();
+				toast.success(result.message); // Display a success notification
 				setIsEditing(false);
 				onClose();
 			} else {
-				console.error('Failed to update profile:', await response.text());
+				const errorMessage = await response.text();
+				toast.error(`Failed to update profile: ${errorMessage}`);
 			}
 		} catch (error) {
-			console.error('Network error:', error);
+			toast.error(`Network error: ${error.message}`);
 		}
 	};
 
@@ -53,7 +56,7 @@ export default function EditProfile({ userInfo, onClose }) {
 
 	return (
 		<div className="h-full flex flex-col bg-search-input-container-background dark:bg-white dark:text-black">
-			<div className="h-16 flex items-center px-4 py-3 bg-panel-header-background dark:bg-gray-200 ">
+			<div className="h-16 flex items-center px-4 py-3 bg-panel-header-background dark:bg-gray-200">
 				<div className="flex items-center gap-12 text-white dark:text-gray-700">
 					<BiArrowBack className="cursor-pointer text-xl" onClick={onClose} />
 					<span className="text-lg">Profile</span>
@@ -70,56 +73,53 @@ export default function EditProfile({ userInfo, onClose }) {
 					)}
 				</div>
 			</div>
-			<div className="text-left">
-				<p className="text-3xl  text-gray-400 text-center mb-5 dark:text-gray-600">
-					{isEditing ? (
+			<div className="text-left px-4">
+				{isEditing ? (
+					<div className="mb-4">
+						<label
+							htmlFor="name"
+							className="block text-gray-400 dark:text-gray-600"
+						>
+							Name
+						</label>
 						<input
+							id="name"
 							type="text"
 							value={name}
 							onChange={handleNameChange}
-							style={{
-								outline: 'none',
-								border: '1px solid #ccc',
-								borderRadius: '4px',
-								padding: '8px',
-								fontSize: '16px',
-							}}
+							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base mt-1 bg-panel-header-background text-white "
 						/>
-					) : (
-						userInfo.name
-					)}
-				</p>
+					</div>
+				) : (
+					<p className="text-3xl text-gray-400 text-center mb-5 dark:text-gray-600">
+						{userInfo.name}
+					</p>
+				)}
 
-				<div className="ml-4">
-					<span className="text-gray-400 mt-6 dark:text-gray-600">Bio</span>
+				<div className="mb-4">
+					<span className="text-gray-400 dark:text-gray-600">Bio</span>
 					{isEditing ? (
 						<textarea
 							value={bio}
 							onChange={handleBioChange}
-							style={{
-								outline: 'none',
-								border: '1px solid #ccc',
-								borderRadius: '4px',
-								padding: '8px',
-								fontSize: '16px',
-								resize: 'none',
-								width: '100%',
-							}}
-							rows={4}
+							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base resize-none mt-1 bg-panel-header-background text-white"
+							rows={3}
 						></textarea>
 					) : (
 						<p className="text-sm text-gray-300 ml-4 mb-4 dark:text-gray-400">
 							{userInfo.status}
 						</p>
 					)}
+				</div>
 
+				<div className="mb-4">
 					<span className="text-gray-400 dark:text-gray-600">Contact</span>
 					<p className="text-sm text-gray-300 ml-4 pr-2 dark:text-gray-400">
 						{userInfo.email}
 					</p>
 				</div>
 			</div>
-			{/* Edit/Save and Logout Buttons */}
+
 			<div className="flex ml-4 mt-auto mb-8">
 				{isEditing ? (
 					<button

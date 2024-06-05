@@ -4,6 +4,7 @@ import { calculateTime } from '@/utils/CalculateTime';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useRef, useState } from 'react';
 import { BsTrash } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import MessageStatus from '../common/MessageStatus';
 import ImageMessage from './ImageMessage';
 
@@ -14,10 +15,8 @@ const VoiceMessage = dynamic(() => import('@/components/Chat/VoiceMessage'), {
 export default function ChatContainer() {
 	const [{ messages, currentChatUser, userInfo, dispatch }] =
 		useStateProvider();
-
 	const containerRef = useRef(null);
 	const [isInitialLoad, setIsInitialLoad] = useState(true);
-
 	const [displayedMessages, setDisplayedMessages] = useState([]);
 	const [page, setPage] = useState(1);
 	const MESSAGES_PER_PAGE = 15;
@@ -82,11 +81,36 @@ export default function ChatContainer() {
 	const [deletedMessages, setDeletedMessages] = useState({});
 
 	const confirmAndDeleteMessage = async (messageId, messageType) => {
-		const confirmed = window.confirm(
-			'Are you sure you want to delete this message?'
+		toast.dark(
+			<div className="flex items-center justify-between">
+				<div>
+					<p className="text-sm">Are you sure to delete?</p>
+				</div>
+				<div className="flex items-center gap-2">
+					<button
+						className="text-sm text-white bg-red-400 px-3 py-1 rounded-md hover:bg-red-600"
+						onClick={() => {
+							deleteMessage(messageId, messageType);
+							toast.dismiss();
+						}}
+					>
+						Yes
+					</button>
+					<button
+						className="text-sm text-white bg-gray-500 px-3 py-1 rounded-md hover:bg-gray-600"
+						onClick={() => toast.dismiss()}
+					>
+						No
+					</button>
+				</div>
+			</div>,
+			{
+				autoClose: false,
+			}
 		);
-		if (!confirmed) return;
+	};
 
+	const deleteMessage = async (messageId, messageType) => {
 		try {
 			const response = await fetch(`${DELETE_MESSAGE_ROUTE}/${messageId}`, {
 				method: 'DELETE',
@@ -96,11 +120,15 @@ export default function ChatContainer() {
 					...prevDeletedMessages,
 					[messageId]: true,
 				}));
+				toast.success('Message deleted successfully!', { autoClose: 2000 }); // 2 seconds
 			} else {
-				console.error('Error deleting message:', response.statusText);
+				const errorMessage = await response.text();
+				toast.error(`Error deleting message: ${errorMessage}`, {
+					autoClose: 2000,
+				}); // 2 seconds
 			}
 		} catch (error) {
-			console.error('Error deleting message:', error);
+			toast.error(`Network error: ${error.message}`, { autoClose: 2000 }); // 2 seconds
 		}
 	};
 
