@@ -32,13 +32,13 @@ export default function EditProfile({ userInfo, onClose }) {
 				body: JSON.stringify({
 					userId: userInfo.id,
 					name,
-					about: bio, // Change this to `about` to match the backend
+					bio,
 					profilePicture: userInfo.profileImage,
 				}),
 			});
 			if (response.ok) {
 				const result = await response.json();
-				toast.success(result.message); // Display a success notification
+				toast.success(result.message);
 				setIsEditing(false);
 				onClose();
 			} else {
@@ -87,7 +87,7 @@ export default function EditProfile({ userInfo, onClose }) {
 							type="text"
 							value={name}
 							onChange={handleNameChange}
-							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base mt-1 bg-panel-header-background text-white "
+							className="w-full outline-none border border-gray-300 rounded-lg p-2 text-base mt-1 bg-panel-header-background text-white"
 						/>
 					</div>
 				) : (

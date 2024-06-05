@@ -125,7 +125,7 @@ export default function ChatContainer() {
 				const errorMessage = await response.text();
 				toast.error(`Error deleting message: ${errorMessage}`, {
 					autoClose: 2000,
-				}); // 2 seconds
+				});
 			}
 		} catch (error) {
 			toast.error(`Network error: ${error.message}`, { autoClose: 2000 }); // 2 seconds
