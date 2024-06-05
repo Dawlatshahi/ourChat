@@ -47,11 +47,6 @@ export const updateProfile = async (req, res, next) => {
 	try {
 		const { userId, name, bio, profilePicture } = req.body;
 
-		console.log('Received userId:', userId);
-		console.log('Received name:', name);
-		console.log('Received bio:', bio);
-		console.log('Received profilePicture:', profilePicture);
-
 		if (!userId || !name || !profilePicture) {
 			return res.status(400).json({
 				error: 'User ID, Name, and Profile Picture are required',
