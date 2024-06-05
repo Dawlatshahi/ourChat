@@ -72,6 +72,25 @@ export default function EditProfile({ userInfo, onClose }) {
 						/>
 					)}
 				</div>
+				<div className="mt-10">
+					{isEditing ? (
+						<button
+							onClick={handleSaveAndClose}
+							className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-md mr-4"
+						>
+							<BiSave />
+							Save
+						</button>
+					) : (
+						<button
+							onClick={handleToggleEdit}
+							className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-md mr-4"
+						>
+							<BiEdit />
+							Edit
+						</button>
+					)}
+				</div>
 			</div>
 			<div className="text-left px-4">
 				{isEditing ? (
@@ -87,7 +106,8 @@ export default function EditProfile({ userInfo, onClose }) {
 							type="text"
 							value={name}
 							onChange={handleNameChange}
-							className="w-full outline-none border border-gray-300 rounded-lg p-2 text-base mt-1 bg-panel-header-background text-white"
+							autoFocus
+							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base mt-1 bg-panel-header-background text-white"
 						/>
 					</div>
 				) : (
@@ -121,23 +141,6 @@ export default function EditProfile({ userInfo, onClose }) {
 			</div>
 
 			<div className="flex ml-4 mt-auto mb-8">
-				{isEditing ? (
-					<button
-						onClick={handleSaveAndClose}
-						className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-md mr-4"
-					>
-						<BiSave />
-						Save
-					</button>
-				) : (
-					<button
-						onClick={handleToggleEdit}
-						className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-md mr-4"
-					>
-						<BiEdit />
-						Edit
-					</button>
-				)}
 				<button
 					onClick={handleLogout}
 					className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-md"
