@@ -2,6 +2,7 @@ export const HOST = 'http://localhost:3005';
 
 const authRoute = `${HOST}/api/auth`;
 const MESSAGES_ROUTE = `${HOST}/api/messages`;
+const PROFILE_ROUTE = `${HOST}/api/auth`;
 
 export const onBoardUserRoute = `${authRoute}/onboarduser`;
 export const CHECK_USER_ROUTE = `${authRoute}/check-user`;
@@ -14,3 +15,7 @@ export const GET_INITIAL_CONTACTS_ROUTE = `${MESSAGES_ROUTE}/get-initial-contact
 export const ADD_AUDIO_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/add-audio-message`;
 export const ADD_IMAGE_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/add-image-message`;
 export const DELETE_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/delete-message`;
+
+// New profile-related endpoints
+export const UPDATE_PROFILE_ROUTE = `${PROFILE_ROUTE}/update-profile`;
+// Add more profile-related endpoints as needed
