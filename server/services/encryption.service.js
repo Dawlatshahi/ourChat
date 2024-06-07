@@ -18,29 +18,51 @@ let serverPrivateKey =
 	'-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCfZ8PjInpnK3es3pDTROqFuurMghJunFO+Lmlwxm3c57aHWqI9wyuBSthwigSWMkUPCfrYzlpOT+zW3bHryMizDHZyYwiLqeynRoTAfLXId4Lzc1EDmk6k/x/3l1EAdaTfg/osgEz0v70Ys4rmDsAzfVpk9U1yBvCtgunZ4F1Nz18vikr7zdGOPKDNdGqu1DxdXBVbE0a+fweik3+MZF0YpSLAyazhsIRpz33nkA8peCDPa5xCJns9aRSAAMCi+wcqvzBaz7vtr3Kh1ttZAjEgwb4ql/j7GNzQnvxT3n6lOr5YDpvtPk4dLAWD9Omr73E+Tk47eZtdXQm+oEOU9ic1AgMBAAECggEBAIa/yK9wrdgYvom7euGdGEMDxwgpzDsEmyXhRfC3TJe4qGuzCgL7wQMCqgQ4J7hvtkEIRqyPg3c/yQ25SnXuvPneRyJa5RZrBkpBKmctBN35aREzIgDRqDmCERvTJf4ldMIdZpXHv0YF72u6Gmhvf7oG9Sry0gzaIQoL6HLtXvIuTNE/oxR5DLb0OoRv8CF7vb6YAamdLgWfHeGbYTduqBw56RMXam28H3roGFiTJtd+btvlilFytAhFyUm2G+bQq1MlDyiHz80pbq1N9tucugzuXnGkr1xaTFKQxnR5oQQaT+QNThksdJotuIrFJk6dm/CjfV4k5bcYRn1p6znzlwECgYEAzJhtNhufPpUHfEcMfBZJXZ++Yq1WpLReMu4UNa7Pj5RdQe/XtW0IVHsGsB7zA4HvXgi1U6QS8x2n6Woa1KKmRBi210bomeEOSbRuHyX/OKrJA4qVVMC8jOIKRlDdRIdJdQLmZEZfMPZ+wd4z0gjYjeTkdTTKRYJJQrNIWxhuKAkCgYEAx3S2lm2Gz2DcMSoymo/pQG9dvjR9H90wYMWIjejk1u4cAp5MJE95b6tSFg1R5K2u9LVkE3/2J3orLxSR8Va9ca/0vpoGl0AVJWvagH1Mu0WdvIKkxsA2V+5ySh3E1W2OHwMtFlBuAOoKE7w9veZHOtKPAmKc1XL8bNqxN/xVWM0CgYEAhaVEIcYlXcIH47ydgSklv4yr1tWX9XsE1YwDk5WfbBDkYkADzjVs7ZJ3qfBtmer0q55QpFRXNIw4tRZkdGXS6kSimzlsk6gZpze/f4VYlHGrYS7ToUtNX1IAmDIWd79P0qmUSghWAiviXU2C2D6DBx1vxsg3IPScWn+2UhtBSdECgYBP2lxXcVYtpHvDez9zPfaGg4+mXOFTZny94ZfAKOOlYQL50WJujxrxKEfe6EpHIXoQIqcEX5CvUWwEl1muo6mI4Ic93/CPkWpl5v49vux/dWmnVS6fG8kl/yLmpXBuekQSCnV8n4rK9ug96nlVk+IknLQAonZjxntlIVEeNvn8aQKBgDTUc8DNq7PuJYKvF8TTHs0TynNsWF9KZg2FpC0RzOog64eRU2Dj+Bypo26iAQnRF0wXUbN6KO/kT7Cw6Lk89dIod3bdCJ9lou/F5E0qIaHtZxEtFw9yweMAMBs5z8Dpr5wVPx2lrF1EoEIWeg5flj4PqtwAYT5jcEsQRsDUQISd\n-----END PRIVATE KEY-----';
 
 export function clientEncrypt(message) {
-	let rsa = pki.publicKeyFromPem(clientPublicKey);
-	let encrypted = btoa(rsa.encrypt(message));
+	// let rsa = pki.publicKeyFromPem(clientPublicKey);
+	// let encrypted = btoa(rsa.encrypt(message));
+	// return encrypted;
+
+	let rsa = forge.pki.publicKeyFromPem(clientPublicKey);
+	var plainTextBytes = forge.util.encodeUtf8(message);
+	var encryptedBytes = rsa.encrypt(plainTextBytes);
+	let encrypted = forge.util.encode64(encryptedBytes);
 	return encrypted;
 }
 
 export function clientDecrypt(message) {
-	let rsa = pki.privateKeyFromPem(clientPrivateKey);
-	let decoded = atob(message);
+	// let rsa = pki.privateKeyFromPem(clientPrivateKey);
+	// let decoded = atob(message);
+	// let decrypted = rsa.decrypt(decoded);
+	// return decrypted;
 
-	let decrypted = rsa.decrypt(decoded);
-
-	return decrypted;
+	let rsa = forge.pki.privateKeyFromPem(clientPrivateKey);
+	var decodedBytes = forge.util.decode64(message);
+	var decryptedBytes = rsa.decrypt(decodedBytes);
+	let decoded = forge.util.decodeUtf8(decryptedBytes);
+	return decoded;
 }
 
 export function serverEncrypt(message) {
-	let rsa = pki.publicKeyFromPem(serverPublicKey);
-	let encrypted = btoa(rsa.encrypt(message));
+	// let rsa = pki.publicKeyFromPem(serverPublicKey);
+	// let encrypted = btoa(rsa.encrypt(message));
+	// return encrypted;
+
+	let rsa = forge.pki.publicKeyFromPem(serverPublicKey);
+	var plainTextBytes = forge.util.encodeUtf8(message);
+	var encryptedBytes = rsa.encrypt(plainTextBytes);
+	let encrypted = forge.util.encode64(encryptedBytes);
 	return encrypted;
 }
 
 export function serverDecrypt(message) {
-	let rsa = pki.privateKeyFromPem(serverPrivateKey);
-	let decoded = atob(message);
-	let decrypted = rsa.decrypt(decoded);
-	return decrypted;
+	// let rsa = pki.privateKeyFromPem(serverPrivateKey);
+	// let decoded = atob(message);
+	// let decrypted = rsa.decrypt(decoded);
+	// return decrypted;
+
+	let rsa = forge.pki.privateKeyFromPem(serverPrivateKey);
+	var decodedBytes = forge.util.decode64(message);
+	var decryptedBytes = rsa.decrypt(decodedBytes);
+	let decoded = forge.util.decodeUtf8(decryptedBytes);
+	return decoded;
 }

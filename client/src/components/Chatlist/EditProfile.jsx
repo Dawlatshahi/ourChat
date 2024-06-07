@@ -41,6 +41,7 @@ export default function EditProfile({ userInfo, onClose }) {
 				toast.success(result.message);
 				setIsEditing(false);
 				onClose();
+				window.location.reload();
 			} else {
 				const errorMessage = await response.text();
 				toast.error(`Failed to update profile: ${errorMessage}`);
@@ -107,7 +108,7 @@ export default function EditProfile({ userInfo, onClose }) {
 							value={name}
 							onChange={handleNameChange}
 							autoFocus
-							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base mt-1 bg-panel-header-background text-white"
+							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base mt-1 bg-panel-header-background text-white dark:bg-gray-200 dark:text-gray-900 "
 						/>
 					</div>
 				) : (
@@ -122,7 +123,7 @@ export default function EditProfile({ userInfo, onClose }) {
 						<textarea
 							value={bio}
 							onChange={handleBioChange}
-							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base resize-none mt-1 bg-panel-header-background text-white"
+							className="w-full outline-none border border-gray-500 rounded-lg p-2 text-base resize-none mt-1 bg-panel-header-background text-white dark:bg-gray-200 dark:text-gray-900"
 							rows={3}
 						></textarea>
 					) : (
