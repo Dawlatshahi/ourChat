@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./client
+    ports:
+      - 3000:3000
+  backend:
+    build: ./server
+    ports:
+      - 3005:3005
+    environment:
+      DATABASE_URL: postgresql://root:password@postgres:5432/ourchat?schema=public
+      PORT: 3005
+      ZEGO_APP_ID: 187668912
+      ZEGO_SERVER_ID: ba3da099d0872540db5e977b7b9491e5
+    command: sh -c "npx prisma db push && yarn start"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: postgres:16.2-alpine3.18
+    ports:
+      - 5432:5432
+    volumes:
+      - ourchat:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: root
+      POSTGRES_DB: ourchat
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U root -d ourchat'"]
+      interval: 5s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+      
+volumes:
+  ourchat:
