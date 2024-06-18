@@ -4,7 +4,7 @@ import { GET_ALL_CONTACTS } from '@/utils/ApiRoutes';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BiArrowBack, BiSearchAlt2 } from 'react-icons/bi';
-import ChatListItem from './ChatListItem';
+import { ChatListItem } from './ChatListItem';
 
 function ContactsList() {
 	const [{}, dispatch] = useStateProvider();
