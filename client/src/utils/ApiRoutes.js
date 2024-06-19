@@ -1,4 +1,4 @@
-export const HOST = process.env.REACT_APP_API_HOST || 'http://localhost:3005';
+export const HOST = process.env.APP_API_HOST || 'http://localhost:3005';
 
 const authRoute = `${HOST}/api/auth`;
 const MESSAGES_ROUTE = `${HOST}/api/messages`;
