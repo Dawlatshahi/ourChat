@@ -1,0 +1,21 @@
+FROM node:22-alpine3.18
+
+RUN addgroup app && adduser -S -G app app
+USER app
+
+WORKDIR /app
+COPY package*.json ./
+
+RUN yarn
+
+ENV key=value
+ENV DATABASE_URL=postgresql://root:password@localhost:5432/ourchat?schema=public
+# ENV DATABASE_URL=postgresql://root:password@localhost:5432/ourchat?schema=public
+ENV PORT=3005
+ENV ZEGO_APP_ID=187668912
+ENV ZEGO_SERVER_ID=ba3da099d0872540db5e977b7b9491e5
+
+COPY . .
+
+EXPOSE 3005
+# CMD ["yarn", "start"]
