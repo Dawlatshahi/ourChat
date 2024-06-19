@@ -14,7 +14,7 @@
         └── schema.prisma
     └── 📁routes
         └── AuthRoutes.js
-        └── MessageRoutes.js
+        └── MessageRoutes.jscp
     └── 📁services
         └── encryption.service.js
     └── 📁uploads
