@@ -4,18 +4,16 @@ import { GET_ALL_CONTACTS } from '@/utils/ApiRoutes';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BiArrowBack, BiSearchAlt2 } from 'react-icons/bi';
-import { ChatListItem } from './ChatListItem';
+import ChatLIstItem from './ChatListItem';
 
 function ContactsList() {
 	const [{}, dispatch] = useStateProvider();
 	const [allContacts, setAllContacts] = useState({});
 	const [searchTerm, setsearchTerm] = useState('');
 	const [searchContacts, setSearchContacts] = useState([]);
-
 	useEffect(() => {
 		if (searchTerm.length) {
 			const filteredData = {};
-
 			Object.keys(allContacts).forEach((key) => {
 				filteredData[key] = allContacts[key].filter((obj) =>
 					obj.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -24,20 +22,17 @@ function ContactsList() {
 					delete filteredData[key];
 				}
 			});
-
 			setSearchContacts(filteredData);
 		} else {
 			setSearchContacts(allContacts);
 		}
 	}, [searchTerm]);
-
 	useEffect(() => {
 		const getContacts = async () => {
 			try {
 				const {
 					data: { users },
 				} = await axios.get(GET_ALL_CONTACTS);
-
 				setAllContacts(users);
 				setSearchContacts(users);
 			} catch (err) {
@@ -46,7 +41,6 @@ function ContactsList() {
 		};
 		getContacts();
 	}, []);
-
 	return (
 		<div className="h-full flex flex-col">
 			<div className="h-16 flex items-end px-3 py-4 dark:bg-gray-200">
@@ -83,7 +77,7 @@ function ContactsList() {
 							<div className="text-teal-light pl-10 py-5">{initialLetter}</div>
 							{userList.map((contact) => {
 								return (
-									<ChatListItem
+									<ChatLIstItem
 										data={contact}
 										isContactPage={true}
 										key={contact.id}
@@ -97,5 +91,4 @@ function ContactsList() {
 		</div>
 	);
 }
-
 export default ContactsList;
