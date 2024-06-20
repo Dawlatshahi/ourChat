@@ -234,7 +234,7 @@ export default function Main() {
 					{!isChatListVisible || currentChatUser ? (
 						<div
 							className={
-								messageSearch ? 'grid grid-cols-1 w-full' : 'grid-cols-1 '
+								messageSearch ? 'grid grid-cols-2 w-full' : 'grid-cols-1 '
 							}
 						>
 							{currentChatUser ? <Chat /> : <Empty />}
