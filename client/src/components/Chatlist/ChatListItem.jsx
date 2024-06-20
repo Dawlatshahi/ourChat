@@ -68,7 +68,7 @@ export default function ChatListItem({ data, isContactPage = false }) {
 					/>
 				)}
 			</div>
-			<div className="flex flex-col justify-center mt-3 pr-2 w-full">
+			<div className="flex flex-col justify-center mt-3 pr-5 w-full">
 				<div className="flex justify-between">
 					<div>
 						<span className="text-white text-md  dark:text-black">

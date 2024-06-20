@@ -191,7 +191,7 @@ export default function Main() {
 	return (
 		<div className="dark:bg-white bg-panel-header-background min-w-screen sm:w-auto">
 			{!voiceCall && !videoCall && (
-				<div className="flex flex-1 justify-between dark:bg-gray-200 bg-panel-header-background h-[6vh] p-2 pt-2 border dark:border-gray-300 border-gray-700 w-full sm:w-screen pr-4 ">
+				<div className="flex flex-1 justify-between dark:bg-gray-200 bg-panel-header-background h-[6vh] p-2 pt-2 border dark:border-gray-300 border-gray-700 w-screen sm:w-auto pr-4 ">
 					<button
 						className="flex items-center sm:block md:hidden text-white dark:text-black mt-1"
 						onClick={toggleChatListVisibility}
@@ -227,7 +227,7 @@ export default function Main() {
 				</div>
 			)}
 			{!videoCall && !voiceCall && (
-				<div className="grid md:grid-cols-main sm:grid-cols-1 w-screen max-w-screen lg:w-auto md:w-auto sm:max-w-screen">
+				<div className="grid md:grid-cols-main sm:grid-cols-1 w-screen max-w-screen lg:w-auto md:w-auto sm:w-auto">
 					{isChatListVisible || (currentChatUser && !isSmallScreen) ? (
 						<ChatList className="block md:block sm:hidden" />
 					) : null}
