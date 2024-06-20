@@ -10,6 +10,7 @@ import { reducerCases } from '@/context/constants';
 import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE, HOST } from '@/utils/ApiRoutes';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { IoMdArrowBack, IoMdChatbubbles } from 'react-icons/io';
 import { IoLogoWechat } from 'react-icons/io5';
 import { decrypt } from '../services/encryption.service';
 import { firebaseAuth } from '../utils/FirebaseConfig';
@@ -38,6 +39,21 @@ export default function Main() {
 	const socket = useRef();
 	const [redirectLogin, setRedirectLogin] = useState(false);
 	const [socketEvent, setSocketEvent] = useState(false);
+	const [isChatListVisible, setIsChatListVisible] = useState(true);
+	const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsSmallScreen(window.innerWidth < 768);
+		};
+		handleResize();
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+
 	useEffect(() => {
 		if (redirectLogin) router.push('/login');
 	}, [redirectLogin]);
@@ -76,8 +92,9 @@ export default function Main() {
 	useEffect(() => {
 		if (socket.current && !socketEvent) {
 			socket.current.on('msg-recieve', (data) => {
-				if (data.message.type == 'text')
+				if (data.message.type === 'text') {
 					data.message.message = decrypt(data.message.message);
+				}
 				dispatch({
 					type: reducerCases.ADD_MESSAGE,
 					newMessage: {
@@ -148,9 +165,10 @@ export default function Main() {
 			} = await axios.get(
 				`${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}`
 			);
-			for (var i = 0; i < messages.length; i++) {
-				if (messages[i].type == 'text')
+			for (let i = 0; i < messages.length; i++) {
+				if (messages[i].type === 'text') {
 					messages[i].message = decrypt(messages[i].message);
+				}
 			}
 			dispatch({ type: reducerCases.SET_MESSAGES, messages });
 		};
@@ -160,16 +178,36 @@ export default function Main() {
 				-1
 		) {
 			getMessages();
+			if (window.innerWidth < 768) {
+				setIsChatListVisible(false);
+			}
 		}
 	}, [currentChatUser]);
 
-	return (
-		<div className="dark:bg-white bg-panel-header-background min-w-screen">
-			{!voiceCall && !videoCall && (
-				<div className="flex flex-1 justify-between dark:bg-gray-200 bg-panel-header-background h-[6vh] p-2 pt-2 border dark:border-gray-300 border-gray-700 w-full pr-8">
-					<IoLogoWechat className="text-gray-400 h-8  w-auto dark:text-gray-600 pl-8" />
-					<div className="text-xl text-white dark:text-black mt-1">ourChat</div>
+	const toggleChatListVisibility = () => {
+		setIsChatListVisible(!isChatListVisible);
+	};
 
+	return (
+		<div className="dark:bg-white bg-panel-header-background min-w-screen sm:w-auto">
+			{!voiceCall && !videoCall && (
+				<div className="flex flex-1 justify-between dark:bg-gray-200 bg-panel-header-background h-[6vh] p-2 pt-2 border dark:border-gray-300 border-gray-700 w-full sm:w-screen pr-4 ">
+					<button
+						className="flex items-center sm:block md:hidden text-white dark:text-black mt-1"
+						onClick={toggleChatListVisibility}
+					>
+						{isChatListVisible ? (
+							<div className="flex items-center">
+								<IoMdArrowBack className="h-6 w-6 mr-1" />
+							</div>
+						) : (
+							<div className="flex items-center">
+								<IoMdChatbubbles className="h-6 w-6 mr-1" />
+								<span className="text-sm">Chat List</span>
+							</div>
+						)}
+					</button>
+					<IoLogoWechat className="text-gray-400 h-8 w-auto dark:text-gray-600 pl-8" />
 					<div className="mt-1">
 						<ThemeToggle className="" />
 					</div>
@@ -189,19 +227,21 @@ export default function Main() {
 				</div>
 			)}
 			{!videoCall && !voiceCall && (
-				<div className="grid grid-cols-main  w-screen  max-w-screen  sm:w-auto ">
-					<ChatList />
-					{currentChatUser ? (
+				<div className="grid md:grid-cols-main sm:grid-cols-1 w-screen max-w-screen lg:w-auto md:w-auto sm:max-w-screen">
+					{isChatListVisible || (currentChatUser && !isSmallScreen) ? (
+						<ChatList className="block md:block sm:hidden" />
+					) : null}
+					{!isChatListVisible || currentChatUser ? (
 						<div
 							className={
-								messageSearch ? 'grid grid-cols-2' : 'grid-cols-2 flex'
+								messageSearch ? 'grid grid-cols-1 w-full' : 'grid-cols-1 '
 							}
 						>
-							<Chat />
+							{currentChatUser ? <Chat /> : <Empty />}
 							{messageSearch && <SearchMessages />}
 						</div>
 					) : (
-						<Empty />
+						!currentChatUser && <Empty />
 					)}
 				</div>
 			)}

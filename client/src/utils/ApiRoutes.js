@@ -1,4 +1,4 @@
-export const HOST = process.env.APP_API_HOST || 'http://localhost:3005';
+export const HOST = 'http://localhost:3005';
 
 const authRoute = `${HOST}/api/auth`;
 const MESSAGES_ROUTE = `${HOST}/api/messages`;
@@ -16,5 +16,4 @@ export const ADD_AUDIO_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/add-audio-message`;
 export const ADD_IMAGE_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/add-image-message`;
 export const DELETE_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/delete-message`;
 
-// New profile-related endpoints
 export const UPDATE_PROFILE_ROUTE = `${PROFILE_ROUTE}/update-profile`;
