@@ -1,4 +1,4 @@
-export const HOST = 'http://ourchat.site:8080';
+export const HOST = 'https://api.ourchat.site';
 
 const authRoute = `${HOST}/api/auth`;
 const MESSAGES_ROUTE = `${HOST}/api/messages`;

@@ -6,7 +6,7 @@ const nextConfig = {
 	},
 	reactStrictMode: false,
 	images: {
-		domains: ['localhost', 'ourchat.site'],
+		domains: ['localhost', 'ourchat.site', 'api.ourchat.site'],
 	},
 };
 
