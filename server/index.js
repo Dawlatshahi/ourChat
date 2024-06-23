@@ -37,6 +37,7 @@ const io = new Server(server, {
 global.onlineUsers = new Map();
 io.on('connection', (socket) => {
 	global.chatSocket = socket;
+
 	socket.on('add-user', (userId) => {
 		onlineUsers.set(userId, socket.id);
 		socket.broadcast.emit('online-users', {
@@ -46,6 +47,19 @@ io.on('connection', (socket) => {
 
 	socket.on('signout', (id) => {
 		onlineUsers.delete(id);
+		socket.broadcast.emit('online-users', {
+			onlineUsers: Array.from(onlineUsers.keys()),
+		});
+	});
+
+	// Handle user disconnect
+	socket.on('disconnect', () => {
+		for (const [userId, socketId] of onlineUsers.entries()) {
+			if (socketId === socket.id) {
+				onlineUsers.delete(userId);
+				break;
+			}
+		}
 		socket.broadcast.emit('online-users', {
 			onlineUsers: Array.from(onlineUsers.keys()),
 		});
